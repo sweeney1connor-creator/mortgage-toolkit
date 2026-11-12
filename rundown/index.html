@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The River City Rundown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a broadsheet front page read on a phone. Cool newsprint, black ink,
+   and one spot color: the gold paint of the Tower Bridge. Sections stagger left/right. */
+:root{
+  --paper:#f3f4f1; --wash:#e7e9e4; --ink:#15181c; --ink-2:#4b5159; --rule:#c6c9c3; --gold:#a57612;
+  --display:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --body:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121417; --wash:#1b1e22; --ink:#eceae4; --ink-2:#a2a7ad; --rule:#343940; --gold:#d8a737;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121417; --wash:#1b1e22; --ink:#eceae4; --ink-2:#a2a7ad; --rule:#343940; --gold:#d8a737;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55}
+.page{max-width:1080px;margin:0 auto;padding:0 20px 56px}
+a{color:inherit;text-decoration-color:var(--gold);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+
+/* masthead */
+.mast{padding:18px 0 0;text-align:center}
+.mast-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.mast h1{font-size:clamp(44px,10vw,104px);letter-spacing:-.02em;padding:14px 0 6px}
+.mast h1 i{color:var(--gold)}
+.mast .tag{font-style:italic;color:var(--ink-2);padding-bottom:14px}
+.ticker{display:grid;grid-template-columns:repeat(5,1fr);border-top:3px double var(--ink);border-bottom:1px solid var(--ink)}
+.ticker div{padding:10px 8px;border-left:1px solid var(--rule);text-align:left}
+.ticker div:first-child{border-left:0}
+.ticker b{display:block;font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
+.ticker span{font-family:var(--mono);font-size:11px;color:var(--ink-2);letter-spacing:.04em}
+.ticker small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+@media (max-width:640px){
+  .ticker{grid-template-columns:repeat(2,1fr)}
+  .ticker div{border-left:0;border-top:1px solid var(--rule)}
+  .ticker div:nth-child(-n+2){border-top:0}
+  .ticker div:nth-child(even){border-left:1px solid var(--rule)}
+  .ticker div:last-child{grid-column:1/-1}
+}
+
+/* lead */
+.lead{padding:28px 0 8px}
+.lead h2{font-size:clamp(36px,7vw,68px);max-width:16ch}
+.lead .deck{font-size:21px;color:var(--ink-2);max-width:60ch;margin-top:12px}
+figure{margin:0}
+.photo{margin-top:22px;border:1px solid var(--ink);background:#182650;position:relative}
+.photo canvas{display:block;width:100%;height:auto;aspect-ratio:5/2}
+@media (max-width:640px){.photo canvas{aspect-ratio:4/3}}
+figcaption{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;padding-top:8px;font-size:15px;color:var(--ink-2);font-style:italic}
+.lead-copy{columns:2 320px;column-gap:36px;margin-top:22px}
+.lead-copy p{margin-bottom:14px;break-inside:avoid}
+.lead-copy p:first-child::first-letter{font-family:var(--display);font-size:64px;line-height:.8;float:left;padding:6px 8px 0 0;color:var(--gold)}
+
+/* staggered sections */
+.story{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:36px;padding:32px 0;border-top:1px solid var(--ink);align-items:start}
+.story.flip .words{order:2}
+.story.flip{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+@media (max-width:820px){.story,.story.flip{grid-template-columns:minmax(0,1fr);gap:20px}.story.flip .words{order:0}}
+.words{display:flex;flex-direction:column;gap:12px;max-width:62ch}
+.words h3{font-size:clamp(30px,5vw,44px)}
+.words ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px}
+.words li::marker{color:var(--gold)}
+.panel{background:var(--wash);padding:16px;border:1px solid var(--rule)}
+.panel h4{font-family:var(--body);font-weight:600;font-size:17px;margin:0 0 2px}
+.panel .sub{font-size:15px;color:var(--ink-2);margin-bottom:8px}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.draw svg{touch-action:none;cursor:crosshair}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:4px 8px;white-space:nowrap;transform:translate(-50%,-130%);display:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+button{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:1px solid var(--ink);padding:9px 14px;cursor:pointer;border-radius:0}
+button.ghost{background:transparent;color:var(--ink)}
+button:hover{background:var(--gold);border-color:var(--gold);color:var(--paper)}
+.verdict{font-style:italic;min-height:1.5em;margin-top:10px}
+details{margin-top:10px;font-size:15px}
+summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+table{border-collapse:collapse;width:100%;margin-top:8px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:4px 8px 4px 0;border-bottom:1px solid var(--rule);font-size:15px}
+.scroll{overflow-x:auto}
+
+/* calculator */
+.calc label{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-top:12px}
+.calc label b{color:var(--ink);font-weight:500}
+input[type=range]{width:100%;accent-color:var(--gold);margin:6px 0 0}
+.pay{font-family:var(--display);font-size:clamp(52px,11vw,84px);line-height:1;margin-top:14px;font-variant-numeric:tabular-nums}
+.pay small{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-2);text-transform:uppercase}
+.fine{font-size:14px;color:var(--ink-2)}
+
+/* small columns */
+.briefs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
+.briefs article{padding:24px 20px 24px 0;display:flex;flex-direction:column;gap:8px}
+.briefs article+article{padding-left:20px;border-left:1px solid var(--rule)}
+.briefs h3{font-size:28px}
+@media (max-width:820px){.briefs{grid-template-columns:minmax(0,1fr)}.briefs article,.briefs article+article{padding:22px 0;border-left:0}.briefs article+article{border-top:1px solid var(--rule)}}
+.fact{border:1px solid var(--ink);padding:24px;margin:8px 0 32px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center}
+.fact .big{font-family:var(--display);font-size:clamp(64px,14vw,120px);line-height:.85;color:var(--gold)}
+.fact h3{font-size:30px;margin-bottom:6px}
+@media (max-width:520px){.fact{grid-template-columns:minmax(0,1fr)}}
+.ahead{border-top:3px double var(--ink);padding:28px 0}
+.ahead h3{font-size:clamp(32px,6vw,52px);max-width:20ch;margin-bottom:12px}
+.ahead p{max-width:64ch;margin-bottom:12px}
+footer{border-top:1px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:12px;font-size:15px;color:var(--ink-2)}
+footer .by{color:var(--ink);font-size:17px}
+footer ol{margin:0;padding-left:20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="mast">
+  <div class="mast-top mono"><span>Sacramento, Calif.</span><span>November 2026 edition</span><span>Housing desk</span></div>
+  <h1>The River City <i>Rundown</i></h1>
+  <p class="tag">Sacramento housing, read in the time it takes your coffee to cool.</p>
+  <div class="ticker" aria-label="October 2026 market numbers">
+    <div><span>MEDIAN SOLD</span><b>$530K</b><small>▼ 4.5% vs Sept</small></div>
+    <div><span>MONTHS OF SUPPLY</span><b>3.1</b><small>▲ from 2.6</small></div>
+    <div><span>DAYS ON MARKET</span><b>36</b><small>▲ 1 day</small></div>
+    <div><span>CLOSED SALES</span><b>812</b><small>▼ from 935</small></div>
+    <div><span>30-YR FIXED, U.S. AVG</span><b>7.18%</b><small>▼ 3 weeks running</small></div>
+  </div>
+</header>
+
+<section class="lead">
+  <p class="mono">The lead</p>
+  <h2>Sacramento just found its balance</h2>
+  <p class="deck">For the first time this year, buyers and sellers are standing on the same step. Here is what that means for you, whichever side of the door you're on.</p>
+  <figure>
+    <div class="photo"><canvas id="photo" role="img" aria-label="Animated illustration of the gold Tower Bridge over the Sacramento River at sunrise, with the sun rising through the lift span and reflecting on the water"></canvas></div>
+    <figcaption><span>Sunrise through the Tower Bridge, Sacramento River. Animated illustration.</span><button class="ghost" id="toggle" type="button">Pause</button></figcaption>
+  </figure>
+  <div class="lead-copy">
+    <p>October was the month Sacramento County stopped being a seller's market and became a fair fight. Supply reached 3.1 months, past the three-month line the Sacramento Association of Realtors uses to call a market balanced. It had not crossed that line all year.</p>
+    <p>The median home sold for $530,000. That is 4.5% under September and 3.6% under last October. Homes took 36 days to sell, and new listings fell to 1,293, the fewest since January.</p>
+    <p>If you're selling, you still get paid. You just might have to vacuum first. If you're buying, you get something 2026 had been stingy with: time to read the inspection report before you decide.</p>
+    <p>Nobody is winning by a landslide, and that is the good news. Balanced markets are where ordinary people get deals done.</p>
+  </div>
+</section>
+
+<section class="story">
+  <div class="words">
+    <p class="mono">Prices</p>
+    <h3>The summer high wore off, gently</h3>
+    <p>June was the peak at $575,000. Since then the median has drifted down $45,000, with a small bounce in late summer. The Realtors' own six-month read calls the trend broadly flat, which is economist for "everybody calm down."</p>
+    <p>Some of this is the calendar. Fewer families move in October, and the homes that do sell skew smaller. Press play to watch the year unfold.</p>
+  </div>
+  <div class="panel">
+    <h4>Median sold price, Sacramento County</h4>
+    <p class="sub">May to October 2026, in thousands of dollars</p>
+    <div class="chart" id="priceChart"><div class="tip"></div></div>
+    <div class="row"><button type="button" id="play">▶ Play the year</button></div>
+    <details><summary>See the numbers</summary><div class="scroll"><table id="priceTable"></table></div></details>
+  </div>
+</section>
+
+<section class="story flip">
+  <div class="words">
+    <p class="mono">Rates · your turn</p>
+    <h3>Draw it yourself: where did rates go?</h3>
+    <p>The 30-year fixed started 2026 near 6.1% and touched 6.00% in early March. You know that part. Now grab the line and draw what you think happened next, all the way to November.</p>
+    <p>No grade, no judgment. A little judgment.</p>
+  </div>
+  <div class="panel draw">
+    <h4>30-year fixed mortgage rate, U.S. weekly average</h4>
+    <p class="sub">Freddie Mac survey, 2026. Drag across the shaded area.</p>
+    <div class="chart" id="rateChart"></div>
+    <div class="row"><button type="button" id="reveal">Show me what happened</button><button type="button" class="ghost" id="redo">Start over</button></div>
+    <p class="verdict" id="verdict" aria-live="polite"></p>
+    <details><summary>See the numbers</summary><div class="scroll"><table id="rateTable"></table></div></details>
+  </div>
+</section>
+
+<section class="story">
+  <div class="words">
+    <p class="mono">The monthly math</p>
+    <h3>What a rate does to a payment</h3>
+    <p>Rates are down three weeks in a row, and still almost a full point above last November's 6.22%. Slide the numbers to see what that gap costs each month, and what a lower price buys back.</p>
+    <p class="fine">Principal and interest only. Taxes, insurance and mortgage insurance are extra. This is arithmetic, not a loan quote.</p>
+  </div>
+  <div class="panel calc">
+    <label for="price">Home price <b id="priceOut"></b></label>
+    <input type="range" id="price" min="300000" max="900000" step="5000" value="530000">
+    <label for="down">Down payment <b id="downOut"></b></label>
+    <input type="range" id="down" min="3" max="30" step="1" value="20">
+    <label for="rate">Interest rate <b id="rateOut"></b></label>
+    <input type="range" id="rate" min="5.5" max="8" step="0.01" value="7.18">
+    <div class="pay"><span id="payOut"></span> <small>/ month</small></div>
+    <p class="sub" id="payNote" style="margin-top:8px"></p>
+  </div>
+</section>
+
+<section class="story flip">
+  <div class="words">
+    <p class="mono">Keys in hand</p>
+    <h3>812 closings, and one open seat</h3>
+    <p>Every dot is a sale that closed in Sacramento County in October. Rates above 7%, headlines doing their worst, and 812 times somebody still signed the stack, got the keys, and stood in an empty living room deciding where the couch goes.</p>
+    <p>Another 858 went under contract. Those are next month's dots. If you've been working toward this and it feels far away, look at the grid. Each of those was far away once too.</p>
+  </div>
+  <div class="panel">
+    <h4>Closed sales, October 2026</h4>
+    <p class="sub">One dot per closing. The gold ring is unclaimed.</p>
+    <div class="chart" id="keys"></div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="words">
+    <p class="mono">The agent desk</p>
+    <h3>For the Realtors reading over coffee</h3>
+    <p>A balanced market rewards the agents who do the unglamorous parts well. Four things worth saying out loud to clients this month:</p>
+  </div>
+  <div class="words">
+    <ul>
+      <li><b>Price for November, not June.</b> The median is $45,000 off its summer peak. The comps your seller remembers are from a different season.</li>
+      <li><b>Thirty-six days is normal.</b> A listing in week four is not stale. Set that expectation at the listing appointment and you'll get fewer 9 p.m. texts.</li>
+      <li><b>Credits are back on the table.</b> With more than three months of supply, sellers have room to negotiate. A credit toward the buyer's rate can sometimes move the payment more than the same dollars off the price. Have your lender run both.</li>
+      <li><b>Your buyers have time.</b> Use it. Inspections, second showings and a full night's sleep are all available again.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="briefs" aria-label="Small business wins">
+  <article>
+    <p class="mono">Small business win</p>
+    <h3>From a tent to a storefront</h3>
+    <p>Tola Vong and Chhayleang Tang started selling cinnamon rolls from a farmers market pop-up this summer. Their first shop, Cinnapop Cafe, is planned for a 500-square-foot space at 611 16th St. in Midtown, with a soft opening this month. Flavors include ube and matcha.</p>
+  </article>
+  <article>
+    <p class="mono">Small business win</p>
+    <h3>Midtown keeps adding doors</h3>
+    <p>Midtown gained 21 new businesses in 2024 and 24 in 2025, and CBS Sacramento reported early this year that 2026 was on the same pace. East Village Book Shop opened a second location on J Street.</p>
+  </article>
+  <article>
+    <p class="mono">Small business win</p>
+    <h3>Round two on Marconi</h3>
+    <p>Onigiri Burgers is preparing a second Sacramento location at 2621 Marconi Ave., aiming for November. Nobody opens a second location because the first one went badly.</p>
+  </article>
+</section>
+
+<section class="fact">
+  <div class="big">10&nbsp;ft</div>
+  <div>
+    <p class="mono">Random fun fact</p>
+    <h3>Sacramento once jacked itself up</h3>
+    <p>After the floods of the early 1860s, the city raised its downtown streets by roughly ten feet, lifting some buildings and turning other ground floors into basements. Parts of the old street level are still down there under Old Sacramento. This town has a history of rising above things.</p>
+  </div>
+</section>
+
+<section class="ahead">
+  <p class="mono">Looking ahead</p>
+  <h3>Reasons to like where this is going</h3>
+  <p>Rates have eased for three straight weeks. Buyers have more to choose from than at any point this year. Prices are holding roughly where they were a year ago instead of sprinting away from paychecks. None of that is a forecast, and none of it is nothing.</p>
+  <p>Winter is the quiet season, which makes it a good time to get your numbers in order. Spring always shows up in Sacramento. It brings allergies, but it shows up.</p>
+</section>
+
+<footer>
+  <p class="by">Published by Connor Sweeney, loan officer at Coast Home Loans. Serving Greater Sacramento. Call or text (916) 846-5567, email connor@coasthomeloans.com, Instagram @sweeneylending.</p>
+  <p>NMLS #2875791 · DRE 02222797. For information only. Not a commitment to lend, a rate quote, or financial advice. Market figures are for Sacramento County unless noted.</p>
+  <div>
+    <p class="mono">Sources</p>
+    <ol>
+      <li><a href="https://sacrealtor.org/housing-statistics-october-2026/">Sacramento Association of Realtors, Housing Statistics, October 2026</a> and the May to September 2026 monthly reports</li>
+      <li><a href="https://www.freddiemac.com/pmms">Freddie Mac Primary Mortgage Market Survey</a>, through November 5, 2026</li>
+      <li><a href="https://whatnow.com/?p=453431">What Now Sacramento</a>, Cinnapop Cafe; <a href="https://whatnow.com/?p=441996">Onigiri Burgers</a></li>
+      <li><a href="https://www.cbsnews.com/sacramento/news/midtown-sacramento-small-businesses-open-2026">CBS Sacramento</a>, Midtown small businesses, February 2026</li>
+    </ol>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function tok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+function isDark(){var t=document.documentElement.getAttribute("data-theme");if(t)return t==="dark";return window.matchMedia("(prefers-color-scheme: dark)").matches;}
+var TXT="font-family:var(--mono);font-size:11px;fill:var(--ink-2)";
+var LBL="font-family:var(--mono);font-size:12px;fill:var(--ink);font-weight:500";
+
+/* ---------- sunrise at the Tower Bridge (animated canvas) ---------- */
+var cv=document.getElementById("photo"),ctx=cv.getContext("2d");
+var topC=document.createElement("canvas"),tc=topC.getContext("2d"),W=0,H=0,HZ=0,dpr=1;
+function size(){
+  var r=cv.getBoundingClientRect();dpr=Math.min(2,window.devicePixelRatio||1);
+  W=Math.max(200,Math.round(r.width));H=Math.max(100,Math.round(r.height));HZ=Math.round(H*0.64);
+  cv.width=W*dpr;cv.height=H*dpr;topC.width=W*dpr;topC.height=HZ*dpr;
+}
+var CLOUDS=[[0.05,0.13,1.2,0.006],[0.32,0.24,0.8,0.01],[0.58,0.1,1.0,0.007],[0.8,0.27,0.7,0.012],[1.05,0.17,1.1,0.008]];
+var TOWN=[[0.425,0.03,0.07],[0.46,0.026,0.1],[0.492,0.03,0.06],[0.53,0.03,0.08],[0.565,0.03,0.11],[0.7,0.035,0.24],[0.74,0.03,0.16],[0.775,0.04,0.2],[0.82,0.03,0.12],[0.856,0.035,0.15],[0.9,0.03,0.09],[0.2,0.03,0.1],[0.24,0.035,0.14],[0.285,0.03,0.08]];
+function upper(c,t){
+  var i,k,g,lw=Math.max(1.2,W/420);
+  c.setTransform(dpr,0,0,dpr,0,0);
+  g=c.createLinearGradient(0,0,0,HZ);
+  g.addColorStop(0,"#182650");g.addColorStop(0.42,"#6a4a7c");g.addColorStop(0.68,"#e27d67");g.addColorStop(0.87,"#f8b96e");g.addColorStop(1,"#fde4a6");
+  c.fillStyle=g;c.fillRect(0,0,W,HZ);
+  var sx=0.5*W,sy=0.42*H,sr=0.06*H,pulse=1+0.03*Math.sin(t*0.8);
+  g=c.createRadialGradient(sx,sy,sr*0.5,sx,sy,H*0.62*pulse);
+  g.addColorStop(0,"rgba(255,246,216,0.95)");g.addColorStop(0.18,"rgba(255,214,140,0.55)");g.addColorStop(0.5,"rgba(255,160,110,0.18)");g.addColorStop(1,"rgba(255,150,110,0)");
+  c.fillStyle=g;c.fillRect(0,0,W,HZ);
+  c.fillStyle="#fff8e2";c.beginPath();c.arc(sx,sy,sr,0,6.2832);c.fill();
+  var s0=H/260;
+  for(i=0;i<CLOUDS.length;i++){
+    var cl=CLOUDS[i],cx=(((cl[0]+t*cl[3])%1.4)-0.2)*W,cy=cl[1]*H,s=cl[2]*s0;
+    for(var pass=0;pass<2;pass++){
+      c.fillStyle=pass?"rgba(255,226,200,0.55)":"rgba(226,120,110,0.38)";
+      c.beginPath();
+      for(k=0;k<5;k++){var ex=cx+(k-2)*20*s,ey=cy+(k%2?-5:3)*s+(pass?-3*s:2*s);c.moveTo(ex+34*s,ey);c.ellipse(ex,ey,34*s,(pass?9:11)*s,0,0,6.2832);}
+      c.fill();
+    }
+  }
+  c.fillStyle="rgba(70,50,96,0.72)";
+  for(i=0;i<TOWN.length;i++){var b=TOWN[i];c.fillRect(b[0]*W,HZ-b[2]*H,b[1]*W,b[2]*H);}
+  c.fillStyle="#262339";c.beginPath();c.moveTo(0,HZ);
+  for(i=0;i<=60;i++){var px=i/60;c.lineTo(px*W,HZ-H*(0.034+0.012*Math.sin(px*37)+0.008*Math.sin(px*91+1)));}
+  c.lineTo(W,HZ);c.closePath();c.fill();
+  /* bridge */
+  var dT=0.555*H,dB=0.59*H,TW=[[0.33,0.385],[0.615,0.67]];
+  c.fillStyle="#4a4358";
+  for(i=0;i<2;i++)c.fillRect((TW[i][0]-0.006)*W,dB,(TW[i][1]-TW[i][0]+0.012)*W,HZ-dB);
+  c.strokeStyle="#e3ab2c";c.lineCap="round";c.lineJoin="round";
+  function span(x0,x1,arch){
+    var n=6,j,tt,xx,yy,tops=[];
+    for(j=0;j<=n;j++){tt=j/n;tops.push(arch?dT-0.085*H*Math.sin(Math.PI*tt):0.475*H);}
+    c.lineWidth=lw*1.8;c.beginPath();
+    for(j=0;j<=24;j++){tt=j/24;xx=(x0+(x1-x0)*tt)*W;yy=arch?dT-0.085*H*Math.sin(Math.PI*tt):0.475*H;if(j)c.lineTo(xx,yy);else c.moveTo(xx,yy);}
+    c.stroke();
+    c.lineWidth=lw;c.beginPath();
+    for(j=0;j<n;j++){
+      var xa=(x0+(x1-x0)*j/n)*W,xb=(x0+(x1-x0)*(j+1)/n)*W;
+      c.moveTo(xa,tops[j]);c.lineTo(xa,dT);
+      c.moveTo(xa,tops[j]);c.lineTo(xb,dT);
+      c.moveTo(xa,dT);c.lineTo(xb,tops[j+1]);
+    }
+    c.stroke();
+  }
+  span(0.07,0.33,true);span(0.67,0.93,true);span(0.385,0.615,false);
+  g=c.createLinearGradient(0,0.15*H,0,dB);
+  g.addColorStop(0,"#ffdb62");g.addColorStop(0.5,"#dba021");g.addColorStop(1,"#9c6c13");
+  for(i=0;i<2;i++){
+    var x0=TW[i][0]*W,tw=(TW[i][1]-TW[i][0])*W;
+    c.fillStyle=g;
+    c.fillRect(x0,0.2*H,tw,dB-0.2*H);
+    c.fillRect(x0+tw*0.12,0.155*H,tw*0.76,0.05*H);
+    c.fillRect(x0+tw*0.46,0.11*H,tw*0.08,0.05*H);
+    c.fillStyle="rgba(255,255,255,0.28)";
+    c.fillRect(i?x0:x0+tw*0.86,0.2*H,tw*0.14,dB-0.2*H);
+    c.fillStyle="rgba(70,40,0,0.45)";
+    for(k=0;k<3;k++){var wy=(0.24+k*0.075)*H;c.fillRect(x0+tw*0.3,wy,tw*0.1,0.04*H);c.fillRect(x0+tw*0.6,wy,tw*0.1,0.04*H);}
+    c.fillRect(x0,0.2*H,tw,Math.max(1,lw*0.8));
+  }
+  c.fillStyle="#b88118";c.fillRect(0.03*W,dT,0.94*W,dB-dT);
+  c.fillStyle="#ffe391";c.fillRect(0.03*W,dT,0.94*W,Math.max(1,lw));
+}
+function draw(t){
+  upper(tc,t);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.drawImage(topC,0,0,W,HZ);
+  var y,src,dx,dh=H-HZ;
+  for(y=0;y<dh;y+=2){
+    src=HZ-2-y*1.25;if(src<0)src=0;
+    dx=Math.sin(y*0.33+t*1.9)*(0.6+y*0.07)+Math.sin(y*0.11-t*1.1)*1.5;
+    ctx.drawImage(topC,0,src*dpr,W*dpr,2*dpr,dx-14,HZ+y,W+28,2);
+  }
+  var g=ctx.createLinearGradient(0,HZ,0,H);
+  g.addColorStop(0,"rgba(20,30,66,0.18)");g.addColorStop(1,"rgba(12,18,44,0.62)");
+  ctx.fillStyle=g;ctx.fillRect(0,HZ,W,dh);
+  for(var i=0;i<70;i++){
+    var u=(i*0.618)%1,v=(i*0.371)%1,a=0.5+0.5*Math.sin(t*2.6+i*1.7);
+    var gy=HZ+4+v*v*(dh-8),spread=(0.03+0.16*(gy-HZ)/dh)*W,gx=0.5*W+(u-0.5)*2*spread,gw=(4+10*v)*W/600+2;
+    ctx.fillStyle="rgba(255,236,186,"+(0.15+0.6*a).toFixed(2)+")";
+    ctx.fillRect(gx-gw/2,gy,gw,Math.max(1,H/260));
+  }
+  g=ctx.createRadialGradient(W/2,H*0.45,H*0.35,W/2,H*0.5,Math.max(W,H)*0.75);
+  g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,"rgba(6,8,24,0.5)");
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+var running=!reduce,visible=true,raf=0,last=0,clock=6;
+var toggle=document.getElementById("toggle");
+function label(){toggle.textContent=running?"Pause":"Play";}
+function frame(now){
+  if(!running||!visible)return;
+  if(now-last>=33){clock+=Math.min(0.1,(now-last)/1000);last=now;draw(clock);}
+  raf=requestAnimationFrame(frame);
+}
+function kick(){cancelAnimationFrame(raf);last=performance.now();raf=requestAnimationFrame(frame);}
+size();draw(clock);label();kick();
+toggle.addEventListener("click",function(){running=!running;label();kick();});
+if("IntersectionObserver" in window)new IntersectionObserver(function(e){visible=e[0].isIntersecting;kick();}).observe(cv);
+
+/* ---------- price chart ---------- */
+var PM=["May","Jun","Jul","Aug","Sep","Oct"],PV=[560,575,542,550,555,530];
+(function(){
+  var host=document.getElementById("priceChart"),tip=host.querySelector(".tip");
+  var W=560,H=290,L=44,R=62,T=18,B=30;
+  var svg=el("svg",{viewBox:"0 0 "+W+" "+H,role:"img","aria-label":"Line chart of median sold price from May to October 2026, peaking at 575 thousand dollars in June and ending at 530 thousand in October"},host);
+  function X(i){return L+i*(W-L-R)/(PV.length-1);}
+  function Y(v){return T+(600-v)*(H-T-B)/100;}
+  [500,525,550,575,600].forEach(function(g){
+    el("line",{x1:L,x2:W-R,y1:Y(g),y2:Y(g),stroke:"var(--rule)","stroke-width":1},svg);
+    el("text",{x:L-8,y:Y(g)+4,"text-anchor":"end",style:TXT},svg,"$"+g+"K");
+  });
+  PM.forEach(function(m,i){el("text",{x:X(i),y:H-8,"text-anchor":"middle",style:TXT},svg,m);});
+  var d=PV.map(function(v,i){return(i?"L":"M")+X(i)+" "+Y(v);}).join(" ");
+  var path=el("path",{d:d,fill:"none",stroke:"var(--ink)","stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"},svg);
+  el("circle",{cx:X(1),cy:Y(575),r:4,fill:"var(--ink)",stroke:"var(--wash)","stroke-width":2},svg);
+  el("text",{x:X(1),y:Y(575)-12,"text-anchor":"middle",style:LBL},svg,"$575K");
+  var end=el("circle",{cx:X(5),cy:Y(530),r:5.5,fill:"var(--gold)",stroke:"var(--wash)","stroke-width":2},svg);
+  var endT=el("text",{x:X(5)+10,y:Y(530)+4,style:LBL},svg,"$530K");
+  var cross=el("line",{y1:T,y2:H-B,stroke:"var(--ink-2)","stroke-width":1,"stroke-dasharray":"3 3",visibility:"hidden"},svg);
+  var dot=el("circle",{r:5,fill:"var(--ink)",stroke:"var(--wash)","stroke-width":2,visibility:"hidden"},svg);
+  var hit=el("rect",{x:L-10,y:T,width:W-L-R+20,height:H-T-B,fill:"transparent"},svg);
+  function move(ev){
+    var r=svg.getBoundingClientRect(),sx=(ev.clientX-r.left)*W/r.width;
+    var i=Math.max(0,Math.min(PV.length-1,Math.round((sx-L)/((W-L-R)/(PV.length-1)))));
+    cross.setAttribute("x1",X(i));cross.setAttribute("x2",X(i));cross.setAttribute("visibility","visible");
+    dot.setAttribute("cx",X(i));dot.setAttribute("cy",Y(PV[i]));dot.setAttribute("visibility","visible");
+    tip.textContent=PM[i]+" · $"+PV[i]+",000";tip.style.display="block";
+    tip.style.left=(X(i)*r.width/W)+"px";tip.style.top=(Y(PV[i])*r.height/H)+"px";
+  }
+  function out(){cross.setAttribute("visibility","hidden");dot.setAttribute("visibility","hidden");tip.style.display="none";}
+  hit.addEventListener("pointermove",move);hit.addEventListener("pointerdown",move);hit.addEventListener("pointerleave",out);
+  document.getElementById("play").addEventListener("click",function(){
+    if(reduce)return;
+    var len=path.getTotalLength();
+    path.style.transition="none";path.style.strokeDasharray=len;path.style.strokeDashoffset=len;
+    end.style.opacity=0;endT.style.opacity=0;
+    path.getBoundingClientRect();
+    path.style.transition="stroke-dashoffset 2.4s ease-in-out";path.style.strokeDashoffset=0;
+    setTimeout(function(){end.style.opacity=1;endT.style.opacity=1;path.style.strokeDasharray="none";},2450);
+  });
+  var tb=document.getElementById("priceTable"),h="<tr><th>Month</th><th>Median sold</th></tr>";
+  PM.forEach(function(m,i){h+="<tr><td>"+m+" 2026</td><td>$"+PV[i]+",000</td></tr>";});
+  tb.innerHTML=h;
+})();
+
+/* ---------- you-draw-it rates ---------- */
+var RD=[[22,"Jan 22",6.09],[43,"Feb 12",6.09],[64,"Mar 5",6.00],[85,"Mar 26",6.38],[127,"May 7",6.37],[148,"May 28",6.53],[169,"Jun 18",6.47],[190,"Jul 9",6.49],[211,"Jul 30",6.66],[232,"Aug 20",6.65],[253,"Sep 10",6.76],[274,"Oct 1",7.28],[288,"Oct 15",7.40],[295,"Oct 22",7.32],[302,"Oct 29",7.24],[309,"Nov 5",7.18]];
+(function(){
+  var host=document.getElementById("rateChart"),verdict=document.getElementById("verdict");
+  var W=560,H=320,L=40,R=46,T=16,B=30,D0=15,D1=315,Y0=5.5,Y1=8,KNOWN=3,N=48;
+  var svg=el("svg",{viewBox:"0 0 "+W+" "+H,role:"img","aria-label":"Draw-it-yourself chart of the 30-year mortgage rate in 2026. The actual rate rose from 6.00 percent in March to 7.40 percent in mid October, then eased to 7.18 percent by November 5."},host);
+  function X(d){return L+(d-D0)*(W-L-R)/(D1-D0);}
+  function Y(v){return T+(Y1-v)*(H-T-B)/(Y1-Y0);}
+  var startD=RD[KNOWN-1][0],endD=RD[RD.length-1][0];
+  el("rect",{x:X(startD),y:T,width:X(endD)-X(startD)+8,height:H-T-B,fill:"var(--paper)",stroke:"var(--rule)","stroke-dasharray":"4 4"},svg);
+  [5.5,6,6.5,7,7.5,8].forEach(function(g){
+    el("line",{x1:L,x2:W-R,y1:Y(g),y2:Y(g),stroke:"var(--rule)","stroke-width":1},svg);
+    el("text",{x:L-8,y:Y(g)+4,"text-anchor":"end",style:TXT},svg,g.toFixed(1)+"%");
+  });
+  [[32,"Feb"],[91,"Apr"],[152,"Jun"],[213,"Aug"],[274,"Oct"]].forEach(function(m){el("text",{x:X(m[0]),y:H-8,"text-anchor":"middle",style:TXT},svg,m[1]);});
+  var hint=el("text",{x:(X(startD)+X(endD))/2,y:Y(7.7),"text-anchor":"middle",style:TXT},svg,"DRAG TO DRAW THE REST OF 2026");
+  var known=RD.slice(0,KNOWN).map(function(p,i){return(i?"L":"M")+X(p[0])+" "+Y(p[2]);}).join(" ");
+  el("path",{d:known,fill:"none",stroke:"var(--ink)","stroke-width":2,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
+  var guessP=el("path",{d:"",fill:"none",stroke:"var(--ink-2)","stroke-width":2,"stroke-dasharray":"2 5","stroke-linecap":"round"},svg);
+  var realP=el("path",{d:"",fill:"none",stroke:"var(--gold)","stroke-width":2.5,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
+  el("circle",{cx:X(startD),cy:Y(6.00),r:4.5,fill:"var(--ink)",stroke:"var(--wash)","stroke-width":2},svg);
+  el("text",{x:X(startD)-6,y:Y(6.00)+18,"text-anchor":"end",style:LBL},svg,"6.00%");
+  var endDot=el("circle",{cx:X(endD),cy:Y(7.18),r:5.5,fill:"var(--gold)",stroke:"var(--wash)","stroke-width":2,visibility:"hidden"},svg);
+  var endLbl=el("text",{x:X(endD)+9,y:Y(7.18)+4,style:LBL,visibility:"hidden"},svg,"7.18%");
+  var peakLbl=el("text",{x:X(288),y:Y(7.40)-10,"text-anchor":"middle",style:LBL,visibility:"hidden"},svg,"7.40%");
+  var guess=[],lastI=null,drawing=false,revealed=false,i;
+  function clear(){for(i=0;i<N;i++)guess[i]=null;lastI=null;}
+  clear();
+  function render(){
+    var d="M"+X(startD)+" "+Y(6.00);
+    for(var k=0;k<N;k++)if(guess[k]!=null)d+=" L"+X(startD+(k+1)*(endD-startD)/N)+" "+Y(guess[k]);
+    guessP.setAttribute("d",d);
+  }
+  function at(ev){
+    var r=svg.getBoundingClientRect(),sx=(ev.clientX-r.left)*W/r.width,sy=(ev.clientY-r.top)*H/r.height;
+    var day=D0+(sx-L)*(D1-D0)/(W-L-R),v=Y1-(sy-T)*(Y1-Y0)/(H-T-B);
+    var k=Math.round((day-startD)*N/(endD-startD))-1;
+    return[Math.max(0,Math.min(N-1,k)),Math.max(Y0,Math.min(Y1,v))];
+  }
+  function put(ev){
+    var p=at(ev),k=p[0],v=p[1];
+    if(lastI==null||lastI===k)guess[k]=v;
+    else{var a=lastI,va=guess[a],step=k>a?1:-1;for(var j=a;j!==k+step;j+=step)guess[j]=va+(v-va)*(j-a)/(k-a);}
+    lastI=k;hint.setAttribute("visibility","hidden");render();
+  }
+  svg.addEventListener("pointerdown",function(ev){if(revealed)return;drawing=true;lastI=null;try{svg.setPointerCapture(ev.pointerId);}catch(e){}put(ev);ev.preventDefault();});
+  svg.addEventListener("pointermove",function(ev){if(drawing)put(ev);});
+  function stop(){drawing=false;}
+  svg.addEventListener("pointerup",stop);svg.addEventListener("pointercancel",stop);
+  document.getElementById("reveal").addEventListener("click",function(){
+    if(revealed)return;revealed=true;
+    var d=RD.slice(KNOWN-1).map(function(p,j){return(j?"L":"M")+X(p[0])+" "+Y(p[2]);}).join(" ");
+    realP.setAttribute("d",d);
+    function show(){endDot.setAttribute("visibility","visible");endLbl.setAttribute("visibility","visible");peakLbl.setAttribute("visibility","visible");}
+    if(reduce)show();else{
+      var len=realP.getTotalLength();
+      realP.style.transition="none";realP.style.strokeDasharray=len;realP.style.strokeDashoffset=len;
+      realP.getBoundingClientRect();
+      realP.style.transition="stroke-dashoffset 1.8s ease-in-out";realP.style.strokeDashoffset=0;
+      setTimeout(show,1800);
+    }
+    hint.setAttribute("visibility","hidden");
+    var g=null;for(var k=N-1;k>=0;k--)if(guess[k]!=null){g=guess[k];break;}
+    var fact=" Rates climbed to 7.40% in mid-October, then eased three weeks in a row to 7.18%.";
+    if(g==null)verdict.textContent="No guess, no judgment."+fact;
+    else{
+      var diff=g-7.18,gs=g.toFixed(2)+"%";
+      if(Math.abs(diff)<=0.15)verdict.textContent="You landed on "+gs+". Please pick our lottery numbers."+fact;
+      else if(diff<0)verdict.textContent="You guessed "+gs+". An optimist. We like that about you."+fact;
+      else verdict.textContent="You guessed "+gs+". You braced for worse than we got, which makes 7.18% feel like a coupon."+fact;
+    }
+  });
+  document.getElementById("redo").addEventListener("click",function(){
+    revealed=false;clear();render();realP.setAttribute("d","");realP.style.strokeDasharray="none";
+    [endDot,endLbl,peakLbl].forEach(function(n){n.setAttribute("visibility","hidden");});
+    hint.setAttribute("visibility","visible");verdict.textContent="";
+  });
+  var tb=document.getElementById("rateTable"),h="<tr><th>Week of</th><th>30-year fixed</th></tr>";
+  RD.forEach(function(p){h+="<tr><td>"+p[1]+", 2026</td><td>"+p[2].toFixed(2)+"%</td></tr>";});
+  tb.innerHTML=h;
+})();
+
+/* ---------- payment ---------- */
+(function(){
+  var price=document.getElementById("price"),down=document.getElementById("down"),rate=document.getElementById("rate");
+  function pi(loan,apr){var r=apr/1200,n=360;return loan*r/(1-Math.pow(1+r,-n));}
+  function money(v){return"$"+Math.round(v).toLocaleString("en-US");}
+  function upd(){
+    var p=+price.value,d=+down.value,r=+rate.value,loan=p*(1-d/100),pay=pi(loan,r),ly=pi(loan,6.22);
+    document.getElementById("priceOut").textContent=money(p);
+    document.getElementById("downOut").textContent=d+"% · "+money(p*d/100);
+    document.getElementById("rateOut").textContent=r.toFixed(2)+"%";
+    document.getElementById("payOut").textContent=money(pay);
+    var diff=pay-ly,note="On a "+money(loan)+" loan. ";
+    if(Math.abs(diff)<1)note+="That matches last November's 6.22% average.";
+    else note+="At last November's 6.22% average it would be "+money(ly)+", which is "+money(Math.abs(diff))+(diff>0?" less":" more")+" a month.";
+    document.getElementById("payNote").textContent=note;
+  }
+  [price,down,rate].forEach(function(n){n.addEventListener("input",upd);});
+  upd();
+})();
+
+/* ---------- 812 dots ---------- */
+(function(){
+  var host=document.getElementById("keys"),cols=29,rows=28,s=18,W=cols*s,H=(rows+1)*s;
+  var svg=el("svg",{viewBox:"0 0 "+W+" "+H,role:"img","aria-label":"Grid of 812 dots, one for each closed sale in October 2026, followed by one empty gold ring"},host);
+  var g=el("g",{fill:"var(--ink)"},svg);
+  for(var r=0;r<rows;r++)for(var c=0;c<cols;c++)el("circle",{cx:c*s+s/2,cy:r*s+s/2,r:5},g);
+  el("circle",{cx:s/2,cy:rows*s+s/2,r:5.5,fill:"none",stroke:"var(--gold)","stroke-width":2.5},svg);
+  el("text",{x:s+6,y:rows*s+s/2+4,style:LBL},svg,"Number 813 could be yours");
+})();
+
+var rt;window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){size();draw(clock);},120);});
+})();
+</script>
+</body>
+</html>

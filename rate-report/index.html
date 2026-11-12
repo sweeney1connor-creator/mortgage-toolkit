@@ -1,0 +1,419 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Weekly Rate Report · Coast Home Loans</title><meta name="description" content="Weekly wholesale mortgage rate report for real estate professionals from Connor Sweeney, Coast Home Loans."><style>:root{box-sizing:border-box}body{margin:0;padding:0}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: one 680px column built to skim. Brand bar, headline, four figures, rate sheet, one chart, then figure-led notes, a navy feature panel for Prop 37, and a signature. */
+:root {
+  --bg: #f4f7fa;
+  --surface: #ffffff;
+  --ink: #0c2233;
+  --muted: #566575;
+  --line: #dce3ea;
+  --navy: #0b3558;
+  --navy-2: #134a75;
+  --on-navy: #ffffff;
+  --on-navy-muted: #b9cfe0;
+  --accent: #0b3558;
+  --accent-soft: #e6f1f9;
+  --orange: #f2571b;
+  --orange-soft: #fdeee6;
+  --sky: #2a9bd8;
+  --down: #0b7a4b;
+  --down-soft: #e3f4ec;
+  --up: #b3261e;
+  --national: #7a8794;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a141d; --surface: #12202d; --ink: #edf2f6; --muted: #9bacbb; --line: #24384a;
+    --navy: #0b3558; --navy-2: #134a75; --on-navy: #ffffff; --on-navy-muted: #b9cfe0;
+    --accent: #6cc0ee; --accent-soft: #14304a; --orange: #ff7a45; --orange-soft: #3a2014; --sky: #6cc0ee;
+    --down: #4ccb92; --down-soft: #12332a; --up: #ff8a80; --national: #93a2b0; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0a141d; --surface: #12202d; --ink: #edf2f6; --muted: #9bacbb; --line: #24384a;
+  --navy: #0b3558; --navy-2: #134a75; --on-navy: #ffffff; --on-navy-muted: #b9cfe0;
+  --accent: #6cc0ee; --accent-soft: #14304a; --orange: #ff7a45; --orange-soft: #3a2014; --sky: #6cc0ee;
+  --down: #4ccb92; --down-soft: #12332a; --up: #ff8a80; --national: #93a2b0; color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 40px;
+}
+.page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(26px, 6vw, 36px); line-height: 1.12; font-weight: 700; letter-spacing: -.01em; }
+h2 { font-size: 21px; font-weight: 700; letter-spacing: -.005em; line-height: 1.2; display: flex; align-items: center; gap: 12px; }
+h2::after { content: ""; flex: 1; height: 2px; min-width: 24px; background: linear-gradient(90deg, var(--orange), var(--sky)); border-radius: 2px; opacity: .55; }
+p { margin: 0; }
+section { display: flex; flex-direction: column; gap: 14px; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 3px; }
+
+.mast { background: var(--navy); color: var(--on-navy); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+.mast img { width: 44px; height: 44px; border-radius: 8px; flex: none; }
+.mast .t { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.mast .name { font-family: var(--display); font-weight: 700; font-size: 17px; }
+.mast .date { font-size: 13px; color: var(--on-navy-muted); }
+
+.lead { display: flex; flex-direction: column; gap: 10px; }
+.lead p { font-size: 17px; max-width: 60ch; }
+
+.figures { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); }
+.figures > div { padding: 12px 10px 12px 0; min-width: 0; }
+.figures > div + div { padding-left: 12px; border-left: 1px solid var(--line); }
+.figures .v { font-family: var(--display); font-weight: 700; font-size: 25px; line-height: 1.15; }
+.figures .v.hi { color: var(--orange); }
+.figures .l { color: var(--muted); font-size: 12.5px; line-height: 1.35; margin-top: 3px; }
+@media (max-width: 560px) {
+  .figures { grid-template-columns: 1fr 1fr; }
+  .figures > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .figures > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+.sheet { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 440px; }
+th { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; text-align: right; padding: 9px 14px; }
+th:first-child, td:first-child { text-align: left; }
+td { padding: 8px 14px; border-top: 1px solid var(--line); text-align: right; white-space: nowrap; }
+tr.group td { background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; padding-block: 6px; }
+.prod { font-weight: 600; }
+.rate { font-family: var(--display); font-weight: 700; font-size: 16.5px; }
+.dn { color: var(--down); font-weight: 500; }
+.upc { color: var(--up); font-weight: 500; }
+.flat { color: var(--muted); }
+
+figure { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+#chart svg { display: block; width: 100%; height: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 2px 18px; font-size: 13px; color: var(--muted); }
+.legend i { display: inline-block; width: 18px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+figcaption { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+
+/* figure-led notes: the number is the headline, the sentence is the caption */
+.led { display: flex; flex-direction: column; }
+.led article { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 4px 18px; padding-block: 14px; border-top: 1px solid var(--line); align-items: start; }
+.led article:last-child { border-bottom: 1px solid var(--line); }
+.led .fig { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1; color: var(--orange); letter-spacing: -.02em; }
+.led .fig small { display: block; font-family: var(--body); font-weight: 600; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; line-height: 1.3; }
+.led h3 { font-size: 16.5px; font-weight: 600; margin-bottom: 3px; }
+.led p { font-size: 15px; }
+@media (max-width: 480px) { .led article { grid-template-columns: 1fr; } .led .fig small { display: inline; margin-left: 8px; } }
+
+.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 560px) { .tools { grid-template-columns: 1fr; } }
+.tools a { display: flex; flex-direction: column; gap: 2px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; text-decoration: none; color: var(--ink); font-weight: 400; }
+.tools a:hover { border-color: var(--orange); }
+.tools b { font-family: var(--display); font-weight: 600; font-size: 15.5px; color: var(--accent); }
+.tools span { font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+.offer { background: var(--orange-soft); border-radius: 10px; padding: 12px 14px; font-size: 15px; }
+
+/* family money: two numerals side by side */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.duo div { padding: 16px 18px; min-width: 0; }
+.duo div + div { border-left: 1px solid var(--line); }
+.duo b { display: block; font-family: var(--display); font-weight: 700; font-size: 46px; line-height: 1; color: var(--accent); letter-spacing: -.02em; }
+.duo span { display: block; font-size: 14px; margin-top: 6px; line-height: 1.4; }
+.aside { font-size: 15px; }
+
+/* cause and effect chain */
+.chain { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 0; align-items: center; }
+.chain li { font-family: var(--display); font-weight: 600; font-size: 14px; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
+.chain li:not(:last-child)::after { content: "→"; color: var(--orange); margin-left: 10px; margin-right: -22px; position: relative; left: 14px; }
+.chain li:not(:last-child) { margin-right: 26px; }
+.chain li:last-child { background: var(--down-soft); color: var(--down); }
+
+/* Prop 37 feature panel */
+.prop { background: var(--navy); color: var(--on-navy); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.prop .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--on-navy-muted); }
+.prop h3 { font-size: 26px; line-height: 1.1; font-weight: 700; }
+.prop h3 em { font-style: normal; color: #ff8a54; }
+.prop p { font-size: 15px; color: var(--on-navy-muted); }
+.bars { display: grid; gap: 8px; }
+.bars .row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: center; font-size: 12.5px; color: var(--on-navy-muted); }
+.bars .track { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.bars .bar { height: 22px; border-radius: 4px; background: var(--navy-2); flex: none; }
+.bars .bar.new { background: #f2571b; }
+.bars b { font-family: var(--display); font-size: 15px; color: var(--on-navy); white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { font-size: 12.5px; font-weight: 500; border: 1px solid var(--navy-2); background: var(--navy-2); color: var(--on-navy); border-radius: 999px; padding: 4px 10px; }
+.moves { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.moves li { position: relative; padding-left: 22px; font-size: 15px; }
+.moves li::before { content: "→"; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+.minor { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--surface); font-size: 15px; }
+.minor b { font-family: var(--display); }
+
+/* insurance: three takes */
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 600px) { .trio { grid-template-columns: 1fr; } }
+.trio div { border-radius: 12px; padding: 14px; font-size: 14.5px; line-height: 1.5; }
+.trio .k { display: block; font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 6px; }
+.trio .good { background: var(--down-soft); } .trio .good .k { color: var(--down); }
+.trio .catch { background: var(--orange-soft); } .trio .catch .k { color: var(--orange); }
+.trio .move { background: var(--accent-soft); } .trio .move .k { color: var(--accent); }
+
+.script { background: var(--accent-soft); border-left: 4px solid var(--orange); border-radius: 0 10px 10px 0; padding: 14px 18px; display: flex; flex-direction: column; gap: 6px; }
+.script .k { font-size: 11px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; color: var(--accent); }
+.script p { font-family: var(--display); font-size: 17.5px; line-height: 1.4; font-weight: 500; }
+
+.sig { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.sig img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; flex: none; }
+.sig .who { min-width: 0; display: flex; flex-direction: column; line-height: 1.4; }
+.sig .n { font-family: var(--display); font-weight: 700; font-size: 18px; }
+.sig .c { color: var(--muted); font-size: 13.5px; }
+.sig .ph { font-weight: 600; font-size: 16px; color: var(--accent); user-select: all; }
+
+footer { color: var(--muted); font-size: 12px; line-height: 1.55; display: flex; flex-direction: column; gap: 8px; }
+
+@page { size: Letter; margin: 0.45in 0.5in; }
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html { zoom: .8; }
+  body { background: #ffffff; padding: 0; font-size: 13.5px; }
+  .page { gap: 18px; max-width: none; }
+  section { gap: 10px; }
+  td { padding-block: 5px; }
+  .led article { padding-block: 9px; }
+  .sig, .script, .prop, .figures, figure, .lead, .led article, .trio, .duo, .tools, footer p { break-inside: avoid; }
+  h2 { break-after: avoid; }
+  .sheet { overflow: visible; }
+}
+</style>
+
+<div class="page">
+  <header class="mast">
+    <img src="logo.jpg" alt="Coast Home Loans logo">
+    <div class="t">
+      <span class="name">Coast Home Loans · Weekly Rate Report</span>
+      <span class="date" id="asof"></span>
+    </div>
+  </header>
+
+  <div class="lead">
+    <h1>Rates are down half a point in a month</h1>
+    <p>On a $750,000 home, that is about $200 a month back in your buyer's pocket.</p>
+  </div>
+
+  <div class="figures num" id="figures"></div>
+
+  <section>
+    <h2>Wholesale rates, top-tier borrower</h2>
+    <div class="sheet"><table class="num" id="sheet"></table></div>
+  </section>
+
+  <section>
+    <h2>Six-month trend</h2>
+    <figure>
+      <div class="legend">
+        <span><i style="background:var(--orange)"></i>Wholesale rate, top-tier borrower</span>
+        <span><i style="background:var(--national)"></i>National average (Freddie Mac)</span>
+      </div>
+      <div id="chart" role="img" aria-label="Line chart of the wholesale 30-year conventional rate for a top-tier borrower and the Freddie Mac national average 30-year rate, May to November 2026. Both rose through September, peaked in October, and have declined since."></div>
+      <figcaption>The national average is what a typical borrower was quoted across all lenders. The orange line is the wholesale 30-year conventional rate for a top-tier borrower (780 credit score, 20% down, 1 point), priced across the lenders a broker can use. Both peaked in October and have fallen since.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>For your clients</h2>
+    <div class="led">
+      <article>
+        <div class="fig num">$789k<small>same payment</small></div>
+        <div><h3>Buyers who paused</h3>
+        <p>The payment that bought $750,000 a month ago now buys about $789,000. They can check their own numbers in <a href="/#income" target="_blank" rel="noopener">Qualifying Income</a>.</p></div>
+      </article>
+      <article>
+        <div class="fig num">42 days<small>on market, Riverside Co.</small></div>
+        <div><h3>Room to negotiate</h3>
+        <p>That compares with 29 days statewide, and price cuts are common across Southern California. Ask for a seller credit toward a rate buydown before a price cut. The <a href="/#concession" target="_blank" rel="noopener">Concession Calculator</a> shows which saves the buyer more.</p></div>
+      </article>
+      <article>
+        <div class="fig num">6.250%<small>FHA · VA 6.375%</small></div>
+        <div><h3>FHA and VA</h3>
+        <p>The lowest rates on the sheet, both down 0.375 on the month.</p></div>
+      </article>
+      <article>
+        <div class="fig num">7.000%<small>investment loans</small></div>
+        <div><h3>Investors</h3>
+        <p>Down about half a point on the month. DSCR and second-home rates have not moved.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Free tools for you and your clients</h2>
+    <div class="tools">
+      <a href="/#concession" target="_blank" rel="noopener"><b>Concession Calculator →</b><span>Price cut or seller credit: see which helps the buyer more.</span></a>
+      <a href="/#income" target="_blank" rel="noopener"><b>Qualifying Income →</b><span>The price an income supports, or the income a price needs.</span></a>
+      <a href="/#build" target="_blank" rel="noopener"><b>Mortgage Calculator →</b><span>Payment, fees and cash to close for any loan type.</span></a>
+      <a href="/#lease" target="_blank" rel="noopener"><b>Lease Renewals →</b><span>Track renters by lease end date and show them rent vs. own.</span></a>
+    </div>
+    <p class="offer"><b>Have renters whose lease ends in the next few months?</b> Send me the names and I will reach out for you.</p>
+  </section>
+
+  <section>
+    <h2>Behind the numbers</h2>
+    <div class="duo num">
+      <div><b>10%</b><span>of first-time buyers used an <strong>inheritance</strong> for the down payment. That is a record.</span></div>
+      <div><b>25%</b><span>had a <strong>gift or loan from family</strong>.</span></div>
+    </div>
+    <p class="aside">Ask first-timers early where the down payment is coming from. Family money needs paperwork, and it is easier at the start than in escrow.</p>
+    <ol class="chain" aria-label="How the election could lead to lower rates">
+      <li>Democrats win House and Senate</li>
+      <li>Pressure for an Iran deal</li>
+      <li>Oil under $100</li>
+      <li>Cooler inflation</li>
+      <li>Room for lower rates</li>
+    </ol>
+    <p class="aside">That is the hopeful chain markets are trading on. It holds only if a deal is signed and no new conflict starts.</p>
+  </section>
+
+  <section>
+    <h2>California propositions and your business</h2>
+    <div class="prop">
+      <span class="eyebrow">Prop 37 · looks set to pass</span>
+      <h3><em>3% down</em> on a newly built home</h3>
+      <p>The state would lend up to 17% of the price as a fixed-rate second loan. Here is the down payment on a $750,000 new build.</p>
+      <div class="bars num">
+        <div class="row"><span>20% down today</span><div class="track"><div class="bar" style="width:72%"></div><b>$150,000</b></div></div>
+        <div class="row"><span>With Prop 37</span><div class="track"><div class="bar new" style="width:10.8%"></div><b>$22,500</b></div></div>
+      </div>
+      <div class="chips" aria-label="Who qualifies">
+        <span>CA resident 1+ year</span><span>Lives in the home</span><span>Income up to 2× area median</span><span>New construction only</span><span>Price cap about $1M to $1.5M by county</span>
+      </div>
+    </div>
+    <ul class="moves">
+      <li>Clients with good income and thin savings become new-construction buyers, so builder relationships matter more.</li>
+      <li>Entry-level resale listings may face more competition from new builds.</li>
+      <li>The second loan has its own payment, so buyers need to qualify on both.</li>
+    </ul>
+    <p class="minor"><b>Prop 1, also likely to pass:</b> an $11.25 billion housing bond. $1.25 billion would go to veteran housing and the rest to rental, homeownership and other affordable housing programs. Expect a slower effect, over several years.</p>
+  </section>
+
+  <section>
+    <h2>California insurance is easing</h2>
+    <div class="trio">
+      <div class="good"><span class="k">The good news</span>Nine insurers, including six of the ten largest, have committed to write more California home policies. It is the first real growth in three years.</div>
+      <div class="catch"><span class="k">The catch</span>Fire zones are still tight. The FAIR Plan holds about 697,000 policies, and its rates rose an average of 29% in October.</div>
+      <div class="move"><span class="k">Your move</span>The premium counts toward the payment a buyer qualifies on. Get a quote in the first days of escrow so it does not sink the loan late.</div>
+    </div>
+  </section>
+
+  <div class="script">
+    <span class="k">One line to use this week</span>
+    <p>"Rates are down half a point since October. On a $750,000 home that is about $200 a month. Want me to have Connor rerun your numbers?"</p>
+  </div>
+
+  <div class="sig">
+    <img src="connor.webp" alt="Connor Sweeney">
+    <div class="who">
+      <span class="n">Connor Sweeney</span>
+      <span class="c">Coast Home Loans · NMLS 2875791</span>
+      <span class="ph num">(916) 846-5567</span>
+      <span class="c"><a href="/#home" target="_blank" rel="noopener">Open my Mortgage Toolkit</a></span>
+    </div>
+  </div>
+
+  <footer>
+    <p id="disc"></p>
+    <p>Coast Home Loans is a mortgage broker and does not set rates. Rates shown are wholesale rates for a top-tier borrower, priced across the lenders we work with for the stated scenario.</p>
+    <p>Buyer figures: National Association of Realtors, 2026 Profile of Home Buyers and Sellers. Days on market: California Association of Realtors, September 2026. Insurance figures: Insurance Journal and the California FAIR Plan. Election and proposition outcomes are media projections as of November 9, 2026 and are not certified. Market commentary is opinion, not a forecast or a promise of future rates.</p>
+    <p>Coast Home Loans. Parent company: Secure Choice Lending, NMLS 1689518. Connor Sweeney, NMLS 2875791. For real estate professionals. Not a commitment to lend or an offer of credit. Rates change daily and depend on credit, property, loan amount and program.</p>
+  </footer>
+</div>
+
+<script>
+/* ===== WEEKLY DATA: edit this block each week ===== */
+const DATA = {
+  asOf: "2026-11-09",
+  example: { price: 750000, down: 0.20 },
+  assumptions: "780 FICO, 30-day lock, 1.000 discount point, primary residence, single-family, full documentation",
+  groups: [
+    { name: "Agency", rows: [
+      { p: "30 Yr Conventional", rate: 6.625, apr: 6.829, wk: -0.250, mo: -0.500 },
+      { p: "30 Yr FHA", rate: 6.250, apr: 7.276, wk: -0.125, mo: -0.375 },
+      { p: "30 Yr Jumbo", rate: 7.125, apr: 7.282, wk: -0.250, mo: -0.375 },
+      { p: "30 Yr VA", rate: 6.375, apr: 6.542, wk: -0.115, mo: -0.375 }
+    ]},
+    { name: "Investor & Non-QM", rows: [
+      { p: "30 Yr Investment", rate: 7.000, apr: 7.205, wk: -0.250, mo: -0.490 },
+      { p: "30 Yr Second Home", rate: 7.625, apr: 8.151, wk: 0, mo: 0 },
+      { p: "30 Yr DSCR", rate: 7.500, apr: 7.698, wk: 0, mo: 0 },
+      { p: "30 Yr Bank Statement", rate: 7.250, apr: 7.458, wk: -0.125, mo: -0.125 }
+    ]}
+  ],
+  national: [["2026-05-14",6.36],["2026-05-21",6.51],["2026-05-28",6.53],["2026-06-04",6.48],["2026-06-11",6.52],["2026-06-18",6.47],["2026-06-25",6.49],["2026-07-02",6.43],["2026-07-09",6.49],["2026-07-16",6.55],["2026-07-23",6.58],["2026-07-30",6.66],["2026-08-06",6.69],["2026-08-13",6.67],["2026-08-20",6.65],["2026-08-27",6.66],["2026-09-03",6.71],["2026-09-10",6.76],["2026-09-17",6.95],["2026-09-24",7.03],["2026-10-01",7.28],["2026-10-08",7.40],["2026-10-15",7.40],["2026-10-22",7.32],["2026-10-29",7.24],["2026-11-05",7.18]],
+  ours: [["2026-07-13",6.375],["2026-07-23",6.5],["2026-07-30",6.5],["2026-08-06",6.375],["2026-08-13",6.375],["2026-08-20",6.375],["2026-08-27",6.5],["2026-09-03",6.625],["2026-09-10",6.75],["2026-09-17",7.0],["2026-09-24",7.0],["2026-10-01",7.25],["2026-10-08",7.25],["2026-10-15",7.125],["2026-10-22",7.125],["2026-10-29",7.0],["2026-11-05",6.875],["2026-11-09",6.625]]
+};
+/* ================================================== */
+
+const d = s => new Date(s + "T00:00:00Z");
+const longDate = s => d(s).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const pct = (n, dp = 3) => n.toFixed(dp) + "%";
+const usd = n => "$" + Math.round(n).toLocaleString("en-US");
+const chg = n => n === 0 ? '<span class="flat">No change</span>'
+  : `<span class="${n < 0 ? "dn" : "upc"}">${n < 0 ? "▼" : "▲"} ${Math.abs(n).toFixed(3)}</span>`;
+const pmt = (loan, rate) => { const r = rate / 1200; return loan * r / (1 - Math.pow(1 + r, -360)); };
+
+document.getElementById("asof").textContent = "Week of " + longDate(DATA.asOf);
+
+const lead = DATA.groups[0].rows[0];
+const loan = DATA.example.price * (1 - DATA.example.down);
+const saved = pmt(loan, lead.rate - lead.mo) - pmt(loan, lead.rate);
+document.getElementById("figures").innerHTML = [
+  ["", pct(lead.rate), "wholesale 30-year conventional<br>APR " + pct(lead.apr)],
+  ["", chg(lead.wk), "vs. one week ago"],
+  ["", chg(lead.mo), "vs. one month ago"],
+  ["hi", usd(saved) + "/mo", "saved on a " + usd(DATA.example.price) + " home vs. a month ago"]
+].map(([c, v, l]) => `<div><div class="v ${c}">${v}</div><div class="l">${l}</div></div>`).join("");
+
+document.getElementById("sheet").innerHTML =
+  "<thead><tr><th>Product</th><th>Rate</th><th>APR</th><th>1 week</th><th>1 month</th></tr></thead><tbody>" +
+  DATA.groups.map(g => `<tr class="group"><td colspan="5">${g.name}</td></tr>` + g.rows.map(r =>
+    `<tr><td class="prod">${r.p}</td><td class="rate">${pct(r.rate)}</td><td>${pct(r.apr)}</td><td>${chg(r.wk)}</td><td>${chg(r.mo)}</td></tr>`
+  ).join("")).join("") + "</tbody>";
+
+document.getElementById("disc").textContent = "Rates as of " + longDate(DATA.asOf) + ". Conventional pricing assumes " + DATA.assumptions +
+  ". Savings example: " + usd(DATA.example.price) + " purchase, " + Math.round(DATA.example.down * 100) + "% down, " + usd(loan) +
+  " 30-year fixed loan at " + pct(lead.rate) + " today versus " + pct(lead.rate - lead.mo) +
+  " one month ago, principal and interest only (" + usd(pmt(loan, lead.rate)) + " versus " + usd(pmt(loan, lead.rate - lead.mo)) +
+  "). Taxes, insurance and mortgage insurance are not included.";
+
+function draw() {
+  const el = document.getElementById("chart");
+  const W = Math.max(300, el.clientWidth || 680), H = Math.round(Math.max(200, Math.min(210, W * 0.31)));
+  const m = { l: 44, r: 58, t: 12, b: 26 };
+  const x0 = d(DATA.national[0][0]).getTime(), x1 = d(DATA.asOf).getTime();
+  const y0 = 6.0, y1 = 7.6;
+  const X = t => m.l + (d(t).getTime() - x0) / (x1 - x0) * (W - m.l - m.r);
+  const Y = v => m.t + (y1 - v) / (y1 - y0) * (H - m.t - m.b);
+  const line = pts => pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join(" ");
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" font-size="12">`;
+  [6.0, 6.5, 7.0, 7.5].forEach(v => {
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/>` +
+         `<text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end" fill="var(--muted)">${v.toFixed(2)}%</text>`;
+  });
+  ["06", "07", "08", "09", "10", "11"].forEach(mm => {
+    const t = "2026-" + mm + "-01";
+    const lab = d(t).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
+    s += `<text x="${X(t)}" y="${H - 6}" text-anchor="middle" fill="var(--muted)">${lab}</text>`;
+  });
+  const end = (pts, color, dp) => {
+    const p = pts[pts.length - 1];
+    return `<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4" fill="${color}"/>` +
+           `<text x="${X(p[0]) + 8}" y="${Y(p[1]) + 4}" fill="${color}" font-weight="600">${p[1].toFixed(dp)}%</text>`;
+  };
+  s += `<path d="${line(DATA.national)}" fill="none" stroke="var(--national)" stroke-width="2" stroke-linejoin="round"/>` + end(DATA.national, "var(--national)", 2);
+  s += `<path d="${line(DATA.ours)}" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-linejoin="round"/>` + end(DATA.ours, "var(--orange)", 3);
+  el.innerHTML = s + "</svg>";
+}
+draw();
+let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 120); });
+</script>
+
+</body></html>
