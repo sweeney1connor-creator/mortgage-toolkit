@@ -52,17 +52,95 @@ em{font-style:italic}
 /* scroll progress line */
 #progress{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--orange);transform-origin:0 50%;transform:scaleX(0);z-index:60}
 
-/* ---------- top bar ---------- */
-.top{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
-.top.solid{background:rgba(20,17,15,.94);border-bottom-color:var(--espresso-3)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
-.top img{width:150px;height:auto}
-.top nav{display:flex;align-items:center;gap:26px;font-size:14px;font-weight:500}
-.top nav a{text-decoration:none;color:var(--cream);opacity:.82;padding-block:6px;border-bottom:1px solid transparent}
-.top nav a:hover{opacity:1;border-bottom-color:var(--orange)}
-.top .call{opacity:1;border:1px solid rgba(243,235,221,.4);border-radius:999px;padding:8px 16px;white-space:nowrap}
-.top .call:hover{border-color:var(--orange);background:var(--orange);color:#fff}
-@media (max-width:860px){.top nav a:not(.call){display:none}.top img{width:128px}}
+/* ===== site header with dropdown menus (shared by the home page and the toolkit) ===== */
+.sn{--sn-bg:#14110F;--sn-bg2:#1E1916;--sn-line:#3A302A;--sn-ink:#F3EBDD;--sn-mute:#B9AC98;--sn-or:#FF4300;--sn-or2:#FF7A45;
+  z-index:60;color:var(--sn-ink);font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-synthesis-weight:none;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+.sn.home{position:fixed;inset:0 0 auto 0}
+.sn.sticky{position:sticky;top:0;background:var(--sn-bg);border-bottom-color:var(--sn-line)}
+.sn.solid,.sn.has-open{background:var(--sn-bg);border-bottom-color:var(--sn-line)}
+.sn *{box-sizing:border-box}
+.sn-bar{max-width:1240px;margin:0 auto;height:72px;display:flex;align-items:center;gap:18px;padding-inline:max(20px,env(safe-area-inset-left,0px)) max(20px,env(safe-area-inset-right,0px))}
+.sn-logo img{display:block;width:150px;height:auto}
+.sn-nav{flex:1;display:flex;align-items:center;justify-content:space-between;gap:18px;height:100%}
+.sn-list{list-style:none;margin:0 0 0 18px;padding:0;display:flex;height:100%}
+.sn-item{display:flex}
+.sn-btn{font:inherit;font-size:15.5px;font-weight:600;letter-spacing:.005em;color:var(--sn-ink);background:none;border:0;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 15px;position:relative}
+.sn-btn::after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:3px;background:var(--sn-or);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.sn-btn:hover::after,.sn-item.open .sn-btn::after,.sn-item.cur .sn-btn::after{transform:scaleX(1)}
+.sn-ch{width:12px;height:12px;transition:transform .2s;opacity:.8}
+.sn-item.open .sn-ch{transform:rotate(180deg)}
+.sn-btn:focus-visible,.sn a:focus-visible,.sn-menu:focus-visible{outline:2px solid var(--sn-or2);outline-offset:2px}
+.sn-cta{display:flex;align-items:center;gap:10px}
+.sn-call{color:var(--sn-ink);text-decoration:none;font-weight:600;font-size:14.5px;border:1px solid rgba(243,235,221,.4);border-radius:999px;padding:9px 16px;white-space:nowrap}
+.sn-call:hover{border-color:var(--sn-ink)}
+.sn-apply{background:var(--sn-or);color:#fff;text-decoration:none;font-weight:700;font-size:14.5px;border-radius:999px;padding:10px 22px;white-space:nowrap}
+.sn-apply:hover{background:#E03B00}
+.sn-mapply,.sn-menu{display:none}
+/* dropdown panel */
+.sn-panel{position:absolute;left:0;right:0;top:100%;background:var(--sn-bg2);border-top:2px solid var(--sn-or);box-shadow:0 24px 48px rgba(0,0,0,.45);visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility 0s .18s}
+.sn-item.open .sn-panel{visibility:visible;opacity:1;transform:none;transition:opacity .18s,transform .18s}
+.sn-inner{max-width:1240px;margin:0 auto;padding:30px max(20px,env(safe-area-inset-left,0px)) 34px;display:grid;grid-template-columns:minmax(0,3fr) minmax(0,6fr) minmax(0,3fr);gap:34px}
+.sn-intro h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:40px;line-height:1;margin:0;color:var(--sn-ink)}
+.sn-intro p{margin:12px 0 0;color:var(--sn-mute);font-size:15px;line-height:1.5;max-width:30ch}
+.sn-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px;align-content:start}
+.sn-link{display:block;text-decoration:none;color:var(--sn-ink);padding:13px 14px;border-left:2px solid transparent;transition:background .15s,border-color .15s}
+.sn-link b{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600}
+.sn-link span{display:block;font-size:13.5px;line-height:1.45;color:var(--sn-mute);margin-top:3px}
+.sn-ar{width:15px;height:15px;color:var(--sn-or2);transform:translateX(-4px);opacity:0;transition:transform .15s,opacity .15s}
+.sn-link:hover,.sn-link.on{background:rgba(243,235,221,.06);border-left-color:var(--sn-or)}
+.sn-link:hover .sn-ar,.sn-link.on .sn-ar{transform:none;opacity:1}
+.sn-feat{background:var(--sn-bg);border:1px solid var(--sn-line);padding:20px;align-self:start}
+.sn-k{display:block;font-family:"DM Mono",ui-monospace,Consolas,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sn-or2)}
+.sn-feat p{margin:10px 0 16px;font-size:15px;line-height:1.5;color:var(--sn-ink)}
+.sn-fbtn{display:inline-block;background:var(--sn-or);color:#fff;text-decoration:none;font-weight:700;font-size:14px;border-radius:999px;padding:10px 18px}
+.sn-fbtn:hover{background:#E03B00}
+.sn-groups{grid-column:2/4;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.sn-groups .sn-k{padding:0 14px 6px}
+.sn-all{grid-column:2/4;display:inline-flex;align-items:center;gap:8px;color:var(--sn-or2);font-weight:600;text-decoration:none;font-size:15px;padding:4px 14px}
+.sn-all .sn-ar{opacity:1;transform:none}
+.sn-all:hover{text-decoration:underline;text-underline-offset:4px}
+.sn-areas{grid-column:2/4;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 18px}
+.sn-area{text-decoration:none;color:var(--sn-ink);padding:10px 14px;border-left:2px solid transparent}
+.sn-area b{font-weight:600;font-size:15.5px}
+.sn-area span{display:block;font-size:13px;color:var(--sn-mute);margin-top:2px}
+.sn-area:hover{background:rgba(243,235,221,.06);border-left-color:var(--sn-or)}
+@media (max-width:1140px){.sn-call{display:none}.sn-btn{padding:0 11px}.sn-btn::after{left:11px;right:11px}.sn-inner{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}.sn-feat{grid-column:2}.sn-groups,.sn-areas,.sn-all{grid-column:1/-1}}
+/* phone and small tablet: menu button opens a full-screen list with expandable sections */
+@media (max-width:960px){
+  .sn-bar{height:64px}
+  .sn-logo img{width:128px}
+  .sn-mapply{display:inline-block;margin-left:auto;padding:9px 18px}
+  .sn-menu{display:flex;flex-direction:column;justify-content:center;gap:4px;width:44px;height:44px;background:none;border:1px solid rgba(243,235,221,.35);border-radius:999px;cursor:pointer;align-items:center}
+  .sn-menu span{display:block;width:16px;height:1.6px;background:var(--sn-ink);transition:transform .2s,opacity .2s}
+  .sn-menu b{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .sn.mopen .sn-menu span:nth-child(1){transform:translateY(5.6px) rotate(45deg)}
+  .sn.mopen .sn-menu span:nth-child(2){opacity:0}
+  .sn.mopen .sn-menu span:nth-child(3){transform:translateY(-5.6px) rotate(-45deg)}
+  .sn.mopen{background:var(--sn-bg)}
+  .sn-nav{display:none;position:fixed;left:0;right:0;top:64px;bottom:0;background:var(--sn-bg);flex-direction:column;align-items:stretch;justify-content:flex-start;overflow-y:auto;padding:8px 20px 28px;height:auto}
+  .sn.mopen .sn-nav{display:flex}
+  .sn-list{flex-direction:column;margin:0;height:auto}
+  .sn-item{flex-direction:column;border-bottom:1px solid var(--sn-line)}
+  .sn-btn{justify-content:space-between;width:100%;padding:18px 2px;font-size:20px}
+  .sn-btn::after{display:none}
+  .sn-ch{width:16px;height:16px}
+  .sn-panel{position:static;display:none;visibility:visible;opacity:1;transform:none;box-shadow:none;border-top:0;background:none}
+  .sn-item.open .sn-panel{display:block}
+  .sn-inner{display:block;padding:0 0 14px}
+  .sn-intro{display:none}
+  .sn-links,.sn-groups,.sn-areas{grid-template-columns:minmax(0,1fr);gap:0}
+  .sn-groups .sn-k{padding:12px 14px 4px}
+  .sn-link,.sn-area{padding:11px 14px}
+  .sn-ar{opacity:1;transform:none}
+  .sn-feat{margin-top:10px}
+  .sn-all{padding:12px 14px}
+  .sn-cta{flex-direction:column;align-items:stretch;margin-top:22px;gap:10px}
+  .sn-cta a{display:block;text-align:center;padding:14px}
+  .sn-call{display:block}
+}
+body.sn-lock{overflow:hidden}
+.sn.switching .sn-panel{transition:none!important}
+@media (prefers-reduced-motion:reduce){.sn-panel,.sn-btn::after,.sn-ch,.sn-ar{transition:none}}
 
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:min(100svh,860px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
@@ -196,11 +274,6 @@ section{position:relative}
 .door li a span{display:block}
 a.inl{color:var(--orange-soft);text-underline-offset:4px;white-space:nowrap}
 
-/* apply button in the top bar */
-.top .apply{opacity:1;background:var(--orange);color:#fff;border-radius:999px;padding:9px 18px;font-weight:600;border-bottom:0}
-.top .apply:hover{background:#E03B00;border-bottom-color:transparent}
-@media (max-width:860px){.top nav a.apply{display:inline-block}.top nav{gap:10px}}
-@media (max-width:460px){.top .call{display:none}}
 
 /* ---------- areas explorer ---------- */
 .apick{display:flex;gap:10px;margin-top:40px;overflow-x:auto;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--espresso-3) transparent;scroll-snap-type:x proximity}
@@ -267,18 +340,26 @@ footer p{max-width:110ch}
 <body>
 <div id="progress" aria-hidden="true"></div>
 
-<header class="top" id="top">
-  <div class="wrap">
-    <a href="#home-top" aria-label="Coast Home Loans, back to top"><img src="assets/logo-wide.png" alt="Coast Home Loans" width="150" height="48"></a>
-    <nav aria-label="Site">
-      <a href="#realtors">For Realtors</a>
-      <a href="#buyers">For buyers</a>
-      <a href="/toolkit/">Toolkit</a>
-      <a href="#reports">Reports</a>
-      <a href="#areas">Areas</a>
-      <a class="call num" href="tel:+19168465567">(916) 846-5567</a>
-      <a class="apply" href="https://scl.my1003app.com/2875791/register" target="_blank" rel="noopener">Apply</a>
+<header class="sn home" id="top">
+  <div class="sn-bar">
+    <a class="sn-logo" href="/" aria-label="Coast Home Loans, home"><img src="/assets/logo-wide.png" alt="Coast Home Loans" width="150" height="48"></a>
+    <nav class="sn-nav" id="snNav" aria-label="Main">
+      <ul class="sn-list">
+        <li class="sn-item"><button class="sn-btn" type="button" aria-expanded="false" aria-controls="snp0">For Realtors<svg class="sn-ch" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="sn-panel" id="snp0"><div class="sn-inner"><div class="sn-intro"><h2>For Realtors</h2><p>Tools to win the listing and keep deals together.</p></div><div class="sn-links"><a class="sn-link" href="/toolkit/#concession" data-v="concession"><b>Concession Calculator<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Price cut or seller credit: see which moves the buyer's payment more.</span></a><a class="sn-link" href="/toolkit/#netsheet" data-v="netsheet"><b>Seller Net Sheet<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>What the seller walks away with, as a PDF you can send.</span></a><a class="sn-link" href="/toolkit/#lease" data-v="lease"><b>Lease Renewals<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Track renters by lease end date and reach out at the right time.</span></a><a class="sn-link" href="/rate-report/"><b>Weekly Rate Report<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Where rates stand this week and what that does to a payment.</span></a></div><div class="sn-feat"><span class="sn-k">Work with me</span><p>Send me a scenario and I'll price it across my wholesale lenders, usually the same day.</p><a class="sn-fbtn" href="tel:+19168465567">Call or text (916) 846-5567</a></div></div></div></li>
+        <li class="sn-item"><button class="sn-btn" type="button" aria-expanded="false" aria-controls="snp1">For buyers<svg class="sn-ch" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="sn-panel" id="snp1"><div class="sn-inner"><div class="sn-intro"><h2>For buyers</h2><p>Know your number before you fall for a house.</p></div><div class="sn-links"><a class="sn-link" href="/toolkit/#build" data-v="build"><b>Build Your Mortgage<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Payment, fees and cash to close for any loan type.</span></a><a class="sn-link" href="/toolkit/#income" data-v="income"><b>Qualifying Income<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>The price an income supports, or the income a price needs.</span></a><a class="sn-link" href="/toolkit/#irrrl" data-v="irrrl"><b>VA IRRRL Estimate<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>For veterans: new payment and break-even on a streamline refinance.</span></a><a class="sn-link" href="/#process"><b>How a loan gets done<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Four steps from your first number to closing day.</span></a></div><div class="sn-feat"><span class="sn-k">Ready to start?</span><p>Start your application online. I'll follow up personally.</p><a class="sn-fbtn" href="https://scl.my1003app.com/2875791/register" target="_blank" rel="noopener">Start an application</a></div></div></div></li>
+        <li class="sn-item"><button class="sn-btn" type="button" aria-expanded="false" aria-controls="snp2">Tools<svg class="sn-ch" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="sn-panel" id="snp2"><div class="sn-inner"><div class="sn-intro"><h2>Tools</h2><p>Free calculators for agents, buyers and homeowners.</p></div><div class="sn-groups"><div><span class="sn-k">Buying</span><a class="sn-link" href="/toolkit/#build" data-v="build"><b>Build Your Mortgage<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Payment, fees and cash to close for any loan type.</span></a><a class="sn-link" href="/toolkit/#income" data-v="income"><b>Qualifying Income<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>The price an income supports, or the income a price needs.</span></a></div><div><span class="sn-k">Listing and selling</span><a class="sn-link" href="/toolkit/#concession" data-v="concession"><b>Concession Calculator<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Price cut or seller credit: see which moves the buyer's payment more.</span></a><a class="sn-link" href="/toolkit/#netsheet" data-v="netsheet"><b>Seller Net Sheet<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>What the seller walks away with, as a PDF you can send.</span></a></div><div><span class="sn-k">Renters and refinancing</span><a class="sn-link" href="/toolkit/#lease" data-v="lease"><b>Lease Renewals<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Track renters by lease end date and reach out at the right time.</span></a><a class="sn-link" href="/toolkit/#irrrl" data-v="irrrl"><b>VA IRRRL Estimate<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>For veterans: new payment and break-even on a streamline refinance.</span></a></div></div><a class="sn-all" href="/toolkit/" data-v="home">See all tools in the Mortgage Toolkit <svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></li>
+        <li class="sn-item"><button class="sn-btn" type="button" aria-expanded="false" aria-controls="snp3">Reports<svg class="sn-ch" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="sn-panel" id="snp3"><div class="sn-inner"><div class="sn-intro"><h2>Reports</h2><p>Short reads, made to text or email to a client.</p></div><div class="sn-links"><a class="sn-link" href="/rundown/"><b>The River City Rundown<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Monthly: Sacramento prices, supply and rates in plain English.</span></a><a class="sn-link" href="/rate-report/"><b>Weekly Rate Report<svg class="sn-ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Where rates stand this week and what that does to a payment.</span></a></div><div class="sn-feat"><span class="sn-k">Latest editions</span><p>A new Rundown every month and a new rate report every week.</p><a class="sn-fbtn" href="/#reports">See the latest reports</a></div></div></div></li>
+        <li class="sn-item"><button class="sn-btn" type="button" aria-expanded="false" aria-controls="snp4">Areas<svg class="sn-ch" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="sn-panel" id="snp4"><div class="sn-inner"><div class="sn-intro"><h2>Areas</h2><p>Where I lend around greater Sacramento.</p></div><div class="sn-areas"><a class="sn-area" href="/#area-downtown-and-the-riverfront"><b>Downtown and the riverfront</b><span>City living with the river at the end of the street.</span></a><a class="sn-area" href="/#area-midtown"><b>Midtown</b><span>Leafy blocks where dinner and coffee are a walk away.</span></a><a class="sn-area" href="/#area-east-sac-and-land-park"><b>East Sac and Land Park</b><span>Older homes with character around two big parks.</span></a><a class="sn-area" href="/#area-old-folsom"><b>Old Folsom</b><span>A Gold Rush main street that still fills up on Fridays.</span></a><a class="sn-area" href="/#area-folsom-lakes-and-trails"><b>Folsom lakes and trails</b><span>Newer neighborhoods with water and trail everywhere.</span></a><a class="sn-area" href="/#area-el-dorado-hills"><b>El Dorado Hills</b><span>Up the hill, with long views and room to spread out.</span></a><a class="sn-area" href="/#area-roseville"><b>Roseville</b><span>Newer, polished and close to everything.</span></a><a class="sn-area" href="/#area-elk-grove"><b>Elk Grove</b><span>Wide streets, newer homes and a park every few blocks.</span></a><a class="sn-area" href="/#area-granite-bay"><b>Granite Bay</b><span>Oak-shaded roads and large lots by Folsom Lake.</span></a><a class="sn-area" href="/#area-auburn-and-the-foothills"><b>Auburn and the foothills</b><span>Gold Country character with canyon views.</span></a></div></div></div></li>
+      </ul>
+      <div class="sn-cta"><a class="sn-call" href="tel:+19168465567">(916) 846-5567</a><a class="sn-apply" href="https://scl.my1003app.com/2875791/register" target="_blank" rel="noopener">Apply</a></div>
     </nav>
+    <a class="sn-apply sn-mapply" href="https://scl.my1003app.com/2875791/register" target="_blank" rel="noopener">Apply</a>
+    <button class="sn-menu" type="button" aria-expanded="false" aria-controls="snNav"><span></span><span></span><span></span><b>Menu</b></button>
   </div>
 </header>
 
@@ -570,7 +651,11 @@ footer p{max-width:110ch}
     var sp=document.createElement("span");sp.textContent=a.name;
     b.appendChild(im);b.appendChild(sp);b.addEventListener("click",function(){showArea(n);});pick.appendChild(b);
   });
-  showArea(3);
+  function areaFromHash(){var m=(location.hash||"").match(/^#area-(.+)$/);if(!m)return false;
+    for(var i=0;i<AREAS.length;i++){if(AREAS[i].name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")===m[1]){showArea(i);
+      var sec=document.getElementById("areas");sec.querySelectorAll(".rv").forEach(function(e){e.classList.add("in");});sec.scrollIntoView();return true;}}return false;}
+  if(!areaFromHash())showArea(3);
+  window.addEventListener("hashchange",areaFromHash);
 
   /* copy-link buttons: put the full address of a tool or report on the clipboard */
   document.addEventListener("click",function(e){
@@ -590,6 +675,29 @@ footer p{max-width:110ch}
     n.textContent="0"+(i+1);
   });},{rootMargin:"-45% 0px -45% 0px",threshold:0});
   steps.forEach(function(s){so.observe(s);});
+})();
+</script>
+<script>
+/* site header: dropdown menus open on hover or click (desktop) and as a full-screen menu on phones */
+(function(){
+  var sn=document.querySelector(".sn");if(!sn)return;
+  var items=[].slice.call(sn.querySelectorAll(".sn-item")),wide=window.matchMedia("(min-width:961px)"),t=null;
+  function setOpen(it,on){it.classList.toggle("open",on);it.querySelector(".sn-btn").setAttribute("aria-expanded",on?"true":"false");}
+  function closeAll(except){items.forEach(function(it){if(it!==except)setOpen(it,false);});sn.classList.toggle("has-open",!!except&&wide.matches);}
+  var openedAt=0;
+  function open(it){var sw=items.some(function(x){return x!==it&&x.classList.contains("open");});sn.classList.toggle("switching",sw);closeAll(it);if(!it.classList.contains("open"))openedAt=Date.now();setOpen(it,true);if(sw)requestAnimationFrame(function(){requestAnimationFrame(function(){sn.classList.remove("switching");});});}
+  function closeMenu(){sn.classList.remove("mopen");sn.querySelector(".sn-menu").setAttribute("aria-expanded","false");document.body.classList.remove("sn-lock");}
+  items.forEach(function(it){
+    var b=it.querySelector(".sn-btn");
+    b.addEventListener("click",function(){if(it.classList.contains("open")){if(wide.matches&&Date.now()-openedAt<600)return;setOpen(it,false);closeAll(null);}else open(it);});
+    it.addEventListener("mouseenter",function(){if(!wide.matches)return;clearTimeout(t);t=setTimeout(function(){open(it);},90);});
+    it.addEventListener("mouseleave",function(){if(!wide.matches)return;clearTimeout(t);t=setTimeout(function(){closeAll(null);},200);});
+  });
+  document.addEventListener("click",function(e){if(!sn.contains(e.target))closeAll(null);});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var o=items.filter(function(i){return i.classList.contains("open");})[0];closeAll(null);closeMenu();if(o)o.querySelector(".sn-btn").focus();}});
+  [].forEach.call(sn.querySelectorAll(".sn-panel a"),function(a){a.addEventListener("click",function(){closeAll(null);closeMenu();});});
+  sn.querySelector(".sn-menu").addEventListener("click",function(){var on=!sn.classList.contains("mopen");sn.classList.toggle("mopen",on);this.setAttribute("aria-expanded",on?"true":"false");document.body.classList.toggle("sn-lock",on);if(!on)closeAll(null);});
+  wide.addEventListener&&wide.addEventListener("change",function(){closeAll(null);closeMenu();});
 })();
 </script>
 </body>
