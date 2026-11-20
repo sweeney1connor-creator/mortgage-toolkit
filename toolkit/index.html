@@ -217,6 +217,26 @@ body.sn-lock{overflow:hidden}
 .band .brandrow img.logo{display:none}
 .band .brandrow{min-height:0}
 
+
+/* rate table: split bars, over-budget rows, payback column */
+.mbar{display:inline-flex;overflow:hidden}
+.mseg{height:100%;flex:none}
+.mseg.c{background:var(--blue-line)}
+.mseg.p{background:var(--blue)}
+tr.over .mseg.p{background:var(--line)}
+table.rtab td:nth-child(2) .sub{white-space:nowrap}
+table.rtab td:nth-child(2){white-space:nowrap}
+tr.over td{color:var(--muted)}
+tr.over td.pos{color:var(--muted)}
+.warnsub{color:var(--warn-ink)!important;font-weight:600}
+table.rtab td .sub{display:block;margin-left:0}
+table.rtab td:first-child .sub{display:inline;margin-left:8px}
+td.pb{font-weight:700;white-space:nowrap}
+td.pb.ok{color:var(--blue-ink)}
+td.pb.slow{color:var(--warn-ink)}
+td.pb .sub{font-weight:400}
+td .win.o{background:var(--surface-2);color:var(--muted);border-color:var(--line)}
+table.rtab{min-width:760px}
 /* share button in each tool's header */
 .sharebtn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font:inherit;font-size:14px;font-weight:600;color:var(--hero-ink);background:transparent;border:1px solid var(--hero-line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:border-color .15s,background .15s}
 .sharebtn svg{width:16px;height:16px}
@@ -1667,17 +1687,25 @@ function render(){
         <div class="legend"><span><i style="background:var(--accent)"></i>${SL} temporary (${fmt(sel.cost)})</span><span><i style="background:var(--blue)"></i>${pct(pq.rate)} permanent (${fmt(pq.cost)}${left>0.5?` + ${fmt(left)} to closing costs`:""})</span><span class="hint2">Hover or tap the chart to see savings at any month.</span></div>`;
 
       // rate table: one clear row per rate, tap to compare
-      const vH=q=>leftFor(q)+q.save*H;
-      const mx=Math.max(...R.cmp.map(vH),tH,1);
-      const rows=R.cmp.map(q=>{const v=vH(q),w=v>tH+0.5,on=q===pq;
-        return `<tr class="pick${on?" on":""}" data-rate="${q.rate}" tabindex="0" aria-label="Compare ${pct(q.rate)} above">
+      // rate table: each bar splits into cash left for closing costs + lower payments
+      const budget=sel.cost;
+      const parts=q=>{const cash=leftFor(q),pay=q.save*H;return{cash,pay,tot:cash+pay,over:q.cost-budget>0.5?q.cost-budget:0};};
+      const inB=R.cmp.filter(q=>!parts(q).over),mx=Math.max(...(inB.length?inB:R.cmp).map(q=>parts(q).tot),tH,1)*1.04,W_=v=>Math.min(100,v/mx*100).toFixed(2);
+      const rows=R.cmp.map((q,k)=>{const P=parts(q),on=q===pq,w=!P.over&&P.tot>tH+0.5;
+        // payback of this step: extra points over the next-higher rate, divided by the extra monthly savings
+        const up=k>0?R.cmp[k-1]:null,dc=up?q.cost-up.cost:q.cost,ds=up?q.save-up.save:q.save,pb=ds>0.005?Math.ceil(dc/ds):null;
+        const pbTxt=pb==null?"—":pb+" mo",pbSub=`vs ${up?pct(up.rate):pct(s.rate)}${pb!=null?" · "+(pb/12).toFixed(1)+" yrs":""}`,pbOk=pb!=null&&pb<=H;
+        return `<tr class="pick${on?" on":""}${P.over?" over":""}" data-rate="${q.rate}" tabindex="0" aria-label="Compare ${pct(q.rate)} above">
           <td><span class="rt2">${pct(q.rate)}</span><span class="sub">${q.pts} pts${R.notePts?` (sheet ${q.raw})`:""}</span>${on?`<span class="tag">Compared above</span>`:R.eq===q?`<span class="tag ghost">Best fit</span>`:""}</td>
-          <td>${fmt(q.cost)}</td>
+          <td>${fmt(q.cost)}${P.over?`<span class="sub warnsub">${fmt(P.over)} over budget</span>`:`<span class="sub">${P.cash>0.5?fmt(P.cash)+" left over":"uses it all"}</span>`}</td>
           <td class="pos">${fmt(q.save)}/mo</td>
-          <td class="barcell"><div class="mbar"><div class="mfill ${w?"p":""}" style="width:${(v/mx*100).toFixed(1)}%"></div><div class="mtick" style="left:${(tH/mx*100).toFixed(1)}%"></div></div><span class="mval">${fmt(v)}</span></td>
-          <td><span class="win ${w?"":"t"}">${w?"Points":SL}</span></td></tr>`;}).join("");
-      const table=`<div class="rthead"><h4>Every rate on your sheet</h4><span>Tap a row to compare it above · the dark tick is the ${SL}'s ${fmt(tH)} · savings include any of the ${fmt(sel.cost)} left for closing costs</span></div>
-        <div class="tablewrap"><table class="rtab"><thead><tr><th>Permanent rate</th><th>Seller cost</th><th>Lowers payment</th><th>Buyer saves by year ${hy}</th><th>Better over ${hy} yrs</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+          <td class="pb ${pbOk?"ok":"slow"}">${pbTxt}<span class="sub">${pbSub}</span></td>
+          <td class="barcell"><div class="mbar">${P.cash>0.5?`<div class="mseg c" style="width:${W_(P.cash)}%"></div>`:""}<div class="mseg p" style="width:${W_(Math.min(P.pay,mx-Math.min(P.cash,mx)))}%"></div><div class="mtick" style="left:${W_(tH)}%"></div></div><span class="mval">${fmt(P.tot)}</span></td>
+          <td>${P.over?`<span class="win o">Over budget</span>`:`<span class="win ${w?"":"t"}">${w?"Points":SL}</span>`}</td></tr>`;}).join("");
+      const table=`<div class="rthead"><h4>Every rate on your sheet</h4><span>Same ${fmt(budget)} from the seller for each · tap a row to compare it above</span></div>
+        <div class="tablewrap"><table class="rtab"><thead><tr><th>Permanent rate</th><th>Points cost</th><th>Lowers payment</th><th>Extra points<br>pay back in</th><th>Buyer saves by year ${hy}</th><th>Better over<br>${hy} yrs</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="legend"><span><i style="background:var(--blue-line)"></i>Cash left for closing costs</span><span><i style="background:var(--blue)"></i>Lower payments</span><span><i style="background:var(--ink);width:3px;height:12px"></i>${SL} buydown: ${fmt(tH)}</span></div>
+        <p class="cap">"Extra points pay back in" compares each rate with the one just above it: the extra points it costs, divided by the extra it saves each month. If that takes longer than ${hy} years, buying down that far doesn't pay off for this buyer. Rates marked over budget cost more than the ${fmt(budget)} credit, so the seller would have to give more.</p>`;
       body=h2h+`<div class="chhead"><h4>Savings so far, month by month</h4></div>`+chart+table;
     }
     out.push(`<section class="card"><div class="cardhead"><h3>${SL} temporary vs. permanent buydown</h3><span>Priced from your rate sheet</span></div>${body}</section>`);
