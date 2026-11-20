@@ -122,6 +122,11 @@ footer{border-top:1px solid var(--ink);padding-top:18px;display:flex;flex-direct
 footer .by{color:var(--ink);font-size:17px}
 footer ol{margin:0;padding-left:20px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.sharerow{margin:0 0 16px}
+.sharebtn{display:inline-flex;align-items:center;gap:8px}
+.sharebtn svg{width:14px;height:14px}
+.sharebtn.done{background:var(--gold);border-color:var(--gold);color:var(--paper)}
+@media print{.sharerow{display:none}}
 </style>
 </head>
 <body>
@@ -131,6 +136,7 @@ footer ol{margin:0;padding-left:20px}
   <div class="mast-top mono"><span>Sacramento, Calif.</span><span>November 2026 edition</span><span>Housing desk</span></div>
   <h1>The River City <i>Rundown</i></h1>
   <p class="tag">Sacramento housing, read in the time it takes your coffee to cool.</p>
+  <p class="sharerow"><button type="button" class="sharebtn ghost" data-path="/rundown/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share this edition</span></button></p>
   <div class="ticker" aria-label="October 2026 market numbers">
     <div><span>MEDIAN SOLD</span><b>$530K</b><small>▼ 4.5% vs Sept</small></div>
     <div><span>MONTHS OF SUPPLY</span><b>3.1</b><small>▲ from 2.6</small></div>
@@ -567,6 +573,20 @@ var RD=[[22,"Jan 22",6.09],[43,"Feb 12",6.09],[64,"Mar 5",6.00],[85,"Mar 26",6.3
 })();
 
 var rt;window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){size();draw(clock);},120);});
+})();
+</script>
+<script>
+(function(){
+  function share(btn){
+    var url=location.origin+(btn.getAttribute("data-path")||location.pathname),title=btn.getAttribute("data-title")||document.title;
+    var lbl=btn.querySelector(".sl"),old=lbl.textContent;
+    function done(t){lbl.textContent=t;btn.classList.add("done");setTimeout(function(){lbl.textContent=old;btn.classList.remove("done");},1800);}
+    var phone=window.matchMedia&&window.matchMedia("(pointer:coarse)").matches;
+    if(phone&&navigator.share){navigator.share({title:title,url:url}).catch(function(){});return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done("Link copied");},function(){window.prompt("Copy this link:",url);});}
+    else window.prompt("Copy this link:",url);
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".sharebtn");if(b){e.preventDefault();share(b);}});
 })();
 </script>
 </body>

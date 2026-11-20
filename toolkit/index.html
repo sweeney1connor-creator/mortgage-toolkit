@@ -125,17 +125,16 @@ td.barcell{width:34%}
 
 /* ===== site header with dropdown menus (shared by the home page and the toolkit) ===== */
 .sn{--sn-bg:#14110F;--sn-bg2:#1E1916;--sn-line:#3A302A;--sn-ink:#F3EBDD;--sn-mute:#B9AC98;--sn-or:#FF4300;--sn-or2:#FF7A45;
-  z-index:60;color:var(--sn-ink);font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-synthesis-weight:none;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+  z-index:60;background:var(--sn-bg);color:var(--sn-ink);font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-synthesis-weight:none;border-bottom:3px solid var(--sn-or);box-shadow:0 6px 20px rgba(0,0,0,.35)}
 .sn.home{position:fixed;inset:0 0 auto 0}
-.sn.sticky{position:sticky;top:0;background:var(--sn-bg);border-bottom-color:var(--sn-line)}
-.sn.solid,.sn.has-open{background:var(--sn-bg);border-bottom-color:var(--sn-line)}
+.sn.sticky{position:sticky;top:0}
 .sn *{box-sizing:border-box}
 .sn-bar{max-width:1240px;margin:0 auto;height:72px;display:flex;align-items:center;gap:18px;padding-inline:max(20px,env(safe-area-inset-left,0px)) max(20px,env(safe-area-inset-right,0px))}
 .sn-logo img{display:block;width:150px;height:auto}
 .sn-nav{flex:1;display:flex;align-items:center;justify-content:space-between;gap:18px;height:100%}
 .sn-list{list-style:none;margin:0 0 0 18px;padding:0;display:flex;height:100%}
 .sn-item{display:flex}
-.sn-btn{font:inherit;font-size:15.5px;font-weight:600;letter-spacing:.005em;color:var(--sn-ink);background:none;border:0;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 15px;position:relative}
+.sn-btn{font:inherit;font-size:16.5px;font-weight:600;letter-spacing:.005em;color:var(--sn-ink);background:none;border:0;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 15px;position:relative}
 .sn-btn::after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:3px;background:var(--sn-or);transform:scaleX(0);transform-origin:left;transition:transform .2s}
 .sn-btn:hover::after,.sn-item.open .sn-btn::after,.sn-item.cur .sn-btn::after{transform:scaleX(1)}
 .sn-ch{width:12px;height:12px;transition:transform .2s;opacity:.8}
@@ -217,6 +216,13 @@ body.sn-lock{overflow:hidden}
 .sn-item.cur .sn-btn{color:#fff}
 .band .brandrow img.logo{display:none}
 .band .brandrow{min-height:0}
+
+/* share button in each tool's header */
+.sharebtn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font:inherit;font-size:14px;font-weight:600;color:var(--hero-ink);background:transparent;border:1px solid var(--hero-line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:border-color .15s,background .15s}
+.sharebtn svg{width:16px;height:16px}
+.sharebtn:hover{border-color:var(--hero-accent);color:#fff}
+.sharebtn.done{background:var(--accent);border-color:var(--accent);color:#fff}
+.sharebtn:focus-visible{outline:2px solid var(--hero-accent);outline-offset:2px}
 </style></head><body>
 <script>
 /* Outside Claude: let the PDF and spreadsheet buttons save through a normal browser download. */
@@ -716,6 +722,7 @@ legend{color:var(--accent-ink)!important}
       <div class="eyebrow">Listing tool · Price cut vs. concessions</div>
       <h1>Concession Calculator</h1>
       <p>Compare a price cut with a temporary or permanent buydown, priced from today's rate sheet.</p>
+      <button type="button" class="sharebtn" data-path="/toolkit/#concession"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share the Concession Calculator</span></button>
     </div>
   </div>
 </header>
@@ -840,6 +847,7 @@ legend{color:var(--accent-ink)!important}
       <h1>Mortgage Toolkit</h1>
       <p>Quick, live numbers for your next listing or buyer. Pick a tool to start.</p>
       <div class="who"><b>Connor Sweeney</b> · Loan Officer · NMLS #2875791<br>(916) 846-5567 · connor@coasthomeloans.com</div>
+      <button type="button" class="sharebtn" data-path="/toolkit/" data-title="Mortgage Toolkit · Connor Sweeney"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share the Mortgage Toolkit</span></button>
     </div>
   </div>
 </header>
@@ -920,6 +928,7 @@ legend{color:var(--accent-ink)!important}
       <div class="eyebrow">Buyer tool · Income and DTI</div>
       <h1>Qualifying Income</h1>
       <p>Enter pay and monthly debts. See the payment and price the income supports, and the income a price needs.</p>
+      <button type="button" class="sharebtn" data-path="/toolkit/#income"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share Qualifying Income</span></button>
     </div>
   </div>
 </header>
@@ -999,6 +1008,7 @@ legend{color:var(--accent-ink)!important}
       <div class="eyebrow">Listing tool · California</div>
       <h1>Seller Net Sheet</h1>
       <p>What the seller walks away with after commissions, closing costs, taxes and the loan payoff.</p>
+      <button type="button" class="sharebtn" data-path="/toolkit/#netsheet"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share the Seller Net Sheet</span></button>
     </div>
   </div>
 </header>
@@ -1082,6 +1092,7 @@ legend{color:var(--accent-ink)!important}
       <div class="eyebrow">Refinance tool · VA streamline</div>
       <h1>VA IRRRL Estimate</h1>
       <p>Seasoning, net tangible benefit, recoupment and the new payment in one place.</p>
+      <button type="button" class="sharebtn" data-path="/toolkit/#irrrl"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share the VA IRRRL Estimate</span></button>
     </div>
   </div>
 </header>
@@ -1190,6 +1201,7 @@ legend{color:var(--accent-ink)!important}
       <div class="eyebrow">Buyer tool · Payment, fees and cash to close</div>
       <h1>Build Your Mortgage</h1>
       <p>Pick a loan type and slide the numbers. Each slider stays within that program's limits for 2026.</p>
+      <button type="button" class="sharebtn" data-path="/toolkit/#build"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share Build Your Mortgage</span></button>
     </div>
   </div>
 </header>
@@ -1262,6 +1274,7 @@ legend{color:var(--accent-ink)!important}
       <h1>Lease Renewals</h1>
       <p>Track renters by lease end date, reach out at the right time, and show them rent vs. own before they sign again.</p>
       <div class="aud" role="group" aria-label="Who is this for"><button type="button" class="on" data-a="realtor">For Realtors</button><button type="button" data-a="renter">For Renters</button></div>
+      <button type="button" class="sharebtn" data-path="/toolkit/#lease"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share Lease Renewals</span></button>
     </div>
   </div>
 </header>
@@ -2843,6 +2856,20 @@ aud("realtor");chal();renderAll();rvo();
   [].forEach.call(sn.querySelectorAll(".sn-panel a"),function(a){a.addEventListener("click",function(){closeAll(null);closeMenu();});});
   sn.querySelector(".sn-menu").addEventListener("click",function(){var on=!sn.classList.contains("mopen");sn.classList.toggle("mopen",on);this.setAttribute("aria-expanded",on?"true":"false");document.body.classList.toggle("sn-lock",on);if(!on)closeAll(null);});
   wide.addEventListener&&wide.addEventListener("change",function(){closeAll(null);closeMenu();});
+})();
+</script>
+<script>
+(function(){
+  function share(btn){
+    var url=location.origin+(btn.getAttribute("data-path")||location.pathname),title=btn.getAttribute("data-title")||document.title;
+    var lbl=btn.querySelector(".sl"),old=lbl.textContent;
+    function done(t){lbl.textContent=t;btn.classList.add("done");setTimeout(function(){lbl.textContent=old;btn.classList.remove("done");},1800);}
+    var phone=window.matchMedia&&window.matchMedia("(pointer:coarse)").matches;
+    if(phone&&navigator.share){navigator.share({title:title,url:url}).catch(function(){});return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done("Link copied");},function(){window.prompt("Copy this link:",url);});}
+    else window.prompt("Copy this link:",url);
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".sharebtn");if(b){e.preventDefault();share(b);}});
 })();
 </script>
 </body></html>

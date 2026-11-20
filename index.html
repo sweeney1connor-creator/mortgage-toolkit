@@ -37,7 +37,7 @@ document.documentElement.className="js";
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--espresso);color:var(--cream);font-family:var(--sans);font-size:17px;line-height:1.6;font-synthesis-weight:none;overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit}
@@ -54,17 +54,16 @@ em{font-style:italic}
 
 /* ===== site header with dropdown menus (shared by the home page and the toolkit) ===== */
 .sn{--sn-bg:#14110F;--sn-bg2:#1E1916;--sn-line:#3A302A;--sn-ink:#F3EBDD;--sn-mute:#B9AC98;--sn-or:#FF4300;--sn-or2:#FF7A45;
-  z-index:60;color:var(--sn-ink);font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-synthesis-weight:none;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
-.sn.home{position:fixed;inset:0 0 auto 0}
-.sn.sticky{position:sticky;top:0;background:var(--sn-bg);border-bottom-color:var(--sn-line)}
-.sn.solid,.sn.has-open{background:var(--sn-bg);border-bottom-color:var(--sn-line)}
+  z-index:60;background:var(--sn-bg);color:var(--sn-ink);font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-synthesis-weight:none;border-bottom:3px solid var(--sn-or);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.sn.home{position:sticky;top:0}
+.sn.sticky{position:sticky;top:0}
 .sn *{box-sizing:border-box}
 .sn-bar{max-width:1240px;margin:0 auto;height:72px;display:flex;align-items:center;gap:18px;padding-inline:max(20px,env(safe-area-inset-left,0px)) max(20px,env(safe-area-inset-right,0px))}
 .sn-logo img{display:block;width:150px;height:auto}
 .sn-nav{flex:1;display:flex;align-items:center;justify-content:space-between;gap:18px;height:100%}
 .sn-list{list-style:none;margin:0 0 0 18px;padding:0;display:flex;height:100%}
 .sn-item{display:flex}
-.sn-btn{font:inherit;font-size:15.5px;font-weight:600;letter-spacing:.005em;color:var(--sn-ink);background:none;border:0;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 15px;position:relative}
+.sn-btn{font:inherit;font-size:16.5px;font-weight:600;letter-spacing:.005em;color:var(--sn-ink);background:none;border:0;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 15px;position:relative}
 .sn-btn::after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:3px;background:var(--sn-or);transform:scaleX(0);transform-origin:left;transition:transform .2s}
 .sn-btn:hover::after,.sn-item.open .sn-btn::after,.sn-item.cur .sn-btn::after{transform:scaleX(1)}
 .sn-ch{width:12px;height:12px;transition:transform .2s;opacity:.8}
@@ -143,12 +142,12 @@ body.sn-lock{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.sn-panel,.sn-btn::after,.sn-ch,.sn-ar{transition:none}}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:min(100svh,860px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero{position:relative;min-height:min(calc(100svh - 75px),820px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
 .hero .photo{position:absolute;inset:-6% 0 -6% 0;z-index:-2;background:#2a1d14 68% 40%/cover no-repeat;will-change:transform}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;
   background:linear-gradient(90deg,rgba(20,17,15,.78) 0%,rgba(20,17,15,.5) 42%,rgba(20,17,15,0) 78%),linear-gradient(180deg,rgba(20,17,15,.6) 0%,rgba(20,17,15,.12) 30%,rgba(20,17,15,.55) 72%,var(--espresso) 100%)}
 .hero .label{color:var(--cream)}
-.hero .wrap{width:100%;padding-block:150px 54px}
+.hero .wrap{width:100%;padding-block:90px 54px}
 .hero h1{font-size:clamp(50px,9.2vw,128px);line-height:.9;max-width:11ch;margin-top:18px}
 .hero h1 em{color:var(--orange-soft)}
 .hero .lede{max-width:50ch;margin-top:26px;font-size:clamp(17px,1.5vw,20px);color:#E9DFCF}
@@ -263,15 +262,6 @@ section{position:relative}
 .rowsnote{font-size:13.5px;color:var(--ink-2);margin-top:14px}
 @media (max-width:820px){.row{grid-template-columns:minmax(0,1fr)}.row .k br{display:none}.row .k b::before{content:" · "}}
 
-/* copy-link buttons */
-.copy{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid currentColor;border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--taupe);white-space:nowrap;transition:color .2s,background .2s,border-color .2s}
-.paper .copy{color:var(--ink-2)}
-.copy:hover{color:var(--orange-soft)}
-.paper .copy:hover{color:#B83200}
-.copy.done{background:var(--orange);border-color:var(--orange);color:#fff!important}
-.door li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;border-top:1px solid var(--espresso-3)}
-.door li a{display:block;border-top:0}
-.door li a span{display:block}
 a.inl{color:var(--orange-soft);text-underline-offset:4px;white-space:nowrap}
 
 
@@ -394,15 +384,15 @@ footer p{max-width:110ch}
       <li class="row">
         <span class="k">Monthly market paper<br><b>November 2026</b></span>
         <a class="t" href="/rundown/"><h3>The River City Rundown</h3><p>What home prices, supply and rates are doing around Sacramento, in plain English. For anyone who owns, rents or is thinking about buying.</p></a>
-        <span class="act"><a class="go" href="/rundown/">Read →</a><button class="copy" type="button" data-copy="/rundown/">Copy link</button></span>
+        <span class="act"><a class="go" href="/rundown/">Read →</a></span>
       </li>
       <li class="row">
         <span class="k">Weekly rates<br><b>Week of Nov 9, 2026</b></span>
         <a class="t" href="/rate-report/"><h3>Weekly Rate Report</h3><p>Where mortgage rates stand this week, how they've moved over six months, and what that does to a monthly payment.</p></a>
-        <span class="act"><a class="go" href="/rate-report/">Read →</a><button class="copy" type="button" data-copy="/rate-report/">Copy link</button></span>
+        <span class="act"><a class="go" href="/rate-report/">Read →</a></span>
       </li>
     </ul>
-    <p class="rowsnote">A new Rundown every month and a new rate report every week. Use "Copy link" to text or email either one.</p>
+    <p class="rowsnote">A new Rundown every month and a new rate report every week.</p>
   </div>
 </section>
 
@@ -446,10 +436,10 @@ footer p{max-width:110ch}
           <h3>Win the listing appointment.</h3>
           <p>Bring numbers your seller and your buyer can both follow.</p>
           <ul>
-            <li><a href="/toolkit/#concession"><b>Concession Calculator</b><span>Price cut or seller credit: which one moves the buyer's payment more.</span></a><button class="copy" type="button" data-copy="/toolkit/#concession" aria-label="Copy link to Concession Calculator">Copy link</button></li>
-            <li><a href="/toolkit/#netsheet"><b>Seller Net Sheet</b><span>What the seller walks away with, as a PDF you can send.</span></a><button class="copy" type="button" data-copy="/toolkit/#netsheet" aria-label="Copy link to Seller Net Sheet">Copy link</button></li>
-            <li><a href="/toolkit/#lease"><b>Lease Renewals</b><span>Track renters by lease end date and reach out at the right time.</span></a><button class="copy" type="button" data-copy="/toolkit/#lease" aria-label="Copy link to Lease Renewals">Copy link</button></li>
-            <li><a href="/rate-report/"><b>Weekly Rate Report</b><span>Wholesale rates by loan type and one line to use with clients.</span></a><button class="copy" type="button" data-copy="/rate-report/" aria-label="Copy link to Weekly Rate Report">Copy link</button></li>
+            <li><a href="/toolkit/#concession"><b>Concession Calculator</b><span>Price cut or seller credit: which one moves the buyer's payment more.</span><i aria-hidden="true">→</i></a></li>
+            <li><a href="/toolkit/#netsheet"><b>Seller Net Sheet</b><span>What the seller walks away with, as a PDF you can send.</span><i aria-hidden="true">→</i></a></li>
+            <li><a href="/toolkit/#lease"><b>Lease Renewals</b><span>Track renters by lease end date and reach out at the right time.</span><i aria-hidden="true">→</i></a></li>
+            <li><a href="/rate-report/"><b>Weekly Rate Report</b><span>Wholesale rates by loan type and one line to use with clients.</span><i aria-hidden="true">→</i></a></li>
           </ul>
         </div>
       </article>
@@ -462,10 +452,10 @@ footer p{max-width:110ch}
           <h3>Know your number first.</h3>
           <p>See the payment and the cash to close before you tour. Ready now? <a class="inl" href="https://scl.my1003app.com/2875791/register" target="_blank" rel="noopener">Start your application →</a></p>
           <ul>
-            <li><a href="/toolkit/#income"><b>Qualifying Income</b><span>The price your income supports, or the income a price needs.</span></a><button class="copy" type="button" data-copy="/toolkit/#income" aria-label="Copy link to Qualifying Income">Copy link</button></li>
-            <li><a href="/toolkit/#build"><b>Build Your Mortgage</b><span>Payment, fees and cash to close for any loan type.</span></a><button class="copy" type="button" data-copy="/toolkit/#build" aria-label="Copy link to Build Your Mortgage">Copy link</button></li>
-            <li><a href="/toolkit/#irrrl"><b>VA IRRRL Estimate</b><span>For veterans: the new payment and break-even on a streamline refinance.</span></a><button class="copy" type="button" data-copy="/toolkit/#irrrl" aria-label="Copy link to VA IRRRL Estimate">Copy link</button></li>
-            <li><a href="/rundown/"><b>River City Rundown</b><span>Sacramento prices, supply and days on market, once a month.</span></a><button class="copy" type="button" data-copy="/rundown/" aria-label="Copy link to River City Rundown">Copy link</button></li>
+            <li><a href="/toolkit/#income"><b>Qualifying Income</b><span>The price your income supports, or the income a price needs.</span><i aria-hidden="true">→</i></a></li>
+            <li><a href="/toolkit/#build"><b>Build Your Mortgage</b><span>Payment, fees and cash to close for any loan type.</span><i aria-hidden="true">→</i></a></li>
+            <li><a href="/toolkit/#irrrl"><b>VA IRRRL Estimate</b><span>For veterans: the new payment and break-even on a streamline refinance.</span><i aria-hidden="true">→</i></a></li>
+            <li><a href="/rundown/"><b>River City Rundown</b><span>Sacramento prices, supply and days on market, once a month.</span><i aria-hidden="true">→</i></a></li>
           </ul>
         </div>
       </article>
@@ -656,15 +646,6 @@ footer p{max-width:110ch}
       var sec=document.getElementById("areas");sec.querySelectorAll(".rv").forEach(function(e){e.classList.add("in");});sec.scrollIntoView();return true;}}return false;}
   if(!areaFromHash())showArea(3);
   window.addEventListener("hashchange",areaFromHash);
-
-  /* copy-link buttons: put the full address of a tool or report on the clipboard */
-  document.addEventListener("click",function(e){
-    var b=e.target.closest&&e.target.closest(".copy");if(!b)return;
-    var url=location.origin+b.getAttribute("data-copy"),old=b.textContent;
-    function ok(){b.textContent="Copied";b.classList.add("done");setTimeout(function(){b.textContent=old;b.classList.remove("done");},1600);}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(ok,function(){window.prompt("Copy this link:",url);});}
-    else{window.prompt("Copy this link:",url);}
-  });
 
   /* scroll story: the photo changes as each step reaches the middle of the screen */
   var steps=[].slice.call(document.querySelectorAll("#steps .step")),imgs=[].slice.call(document.querySelectorAll("#stage img")),n=document.getElementById("stageN");

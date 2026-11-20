@@ -189,6 +189,10 @@ footer { color: var(--muted); font-size: 12px; line-height: 1.55; display: flex;
 }
 h1, h2, .led .fig, .duo b, .figures .v { font-family: var(--serif) !important; font-weight: 400 !important; letter-spacing: 0 !important; }
 .led .fig small { font-family: var(--body) !important; font-weight: 600 !important; }
+.mast .sharebtn{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13.5px;font-weight:600;color:var(--on-navy);background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 14px;cursor:pointer}
+.mast .sharebtn svg{width:15px;height:15px}
+.mast .sharebtn:hover,.mast .sharebtn.done{border-color:var(--orange);background:var(--orange);color:#fff}
+@media print{.sharebtn{display:none!important}}
 </style>
 
 <div class="page">
@@ -198,6 +202,7 @@ h1, h2, .led .fig, .duo b, .figures .v { font-family: var(--serif) !important; f
       <span class="name">Coast Home Loans · Weekly Rate Report</span>
       <span class="date" id="asof"></span>
     </div>
+    <button type="button" class="sharebtn" data-path="/rate-report/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2.5M5 5.2 8 2.2l3 3M3.5 8.5v4.5h9V8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl">Share</span></button>
   </header>
 
   <div class="lead">
@@ -421,4 +426,18 @@ draw();
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 120); });
 </script>
 
+<script>
+(function(){
+  function share(btn){
+    var url=location.origin+(btn.getAttribute("data-path")||location.pathname),title=btn.getAttribute("data-title")||document.title;
+    var lbl=btn.querySelector(".sl"),old=lbl.textContent;
+    function done(t){lbl.textContent=t;btn.classList.add("done");setTimeout(function(){lbl.textContent=old;btn.classList.remove("done");},1800);}
+    var phone=window.matchMedia&&window.matchMedia("(pointer:coarse)").matches;
+    if(phone&&navigator.share){navigator.share({title:title,url:url}).catch(function(){});return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done("Link copied");},function(){window.prompt("Copy this link:",url);});}
+    else window.prompt("Copy this link:",url);
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".sharebtn");if(b){e.preventDefault();share(b);}});
+})();
+</script>
 </body></html>
